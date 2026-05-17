@@ -159,6 +159,9 @@ body::after {
     overflow: visible; /* Afişlerin barın üzerine taşmasına izin verir */
     z-index: 20000; /* Aktif kartların her şeyin önüne çıkması için yüksek z-index */
     cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
 }
 .hero-spatial:active { cursor: grabbing; }
 

@@ -47,7 +47,7 @@ function setupDragEvents() {
 
   const onStart = (e) => {
     isDragging = true;
-    startX = e.pageX || e.touches[0].pageX;
+    startX = e.pageX || (e.touches && e.touches[0] ? e.touches[0].pageX : 0);
     startRotation = currentRotation;
     clearTimeout(pauseTimeout);
     pauseAutoRotate = true; // Sürüklerken durdur
@@ -55,7 +55,13 @@ function setupDragEvents() {
 
   const onMove = (e) => {
     if (!isDragging) return;
-    const x = e.pageX || e.touches[0].pageX;
+    
+    // Mobilde yatay yörünge sürüklemesi yaparken tüm ekranın sağa sola kaymasını önlüyoruz!
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    
+    const x = e.pageX || (e.touches && e.touches[0] ? e.touches[0].pageX : 0);
     const diff = (x - startX) * 0.15;
     currentRotation = startRotation + diff;
     updateOrbitalTransforms();
@@ -71,9 +77,9 @@ function setupDragEvents() {
   dragArea.addEventListener('mousedown', onStart);
   dragArea.addEventListener('mousemove', onMove);
   window.addEventListener('mouseup', onEnd);
-  dragArea.addEventListener('touchstart', onStart);
-  dragArea.addEventListener('touchmove', onMove);
-  window.addEventListener('touchend', onEnd);
+  dragArea.addEventListener('touchstart', onStart, { passive: true });
+  dragArea.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('touchend', onEnd, { passive: true });
 }
 
 function updateOrbitalTransforms() {
