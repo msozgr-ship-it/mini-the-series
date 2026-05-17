@@ -111,7 +111,7 @@ function updateOrbitalTransforms() {
     const screenW = window.innerWidth;
     const maxSpanX = (screenW / 2) - 48;
     const radiusX = Math.min(maxSpanX, 115);
-    const radiusY_vertical = 24; // Dikey eliptik kavis derinliği
+    const radiusY_vertical = 35; // Dikey eliptik kavis derinliği (Arttırıldı!)
     const radiusZ = 60; // 3D derinlik projeksiyonu
 
     calculatedAngles.forEach((data, i) => {
@@ -119,9 +119,9 @@ function updateOrbitalTransforms() {
       const rad = (relAngle * Math.PI) / 180;
       const cosVal = Math.cos(rad); // -1 ile 1 arası değer
       
-      // Kusursuz kesintisiz 3D dairesel koordinatlar
+      // Kusursuz kesintisiz 3D dairesel koordinatlar (Y ekseni tersine çevrildi: Önler yukarıda, arkalar aşağıda!)
       const x = Math.sin(rad) * radiusX;
-      const y = cosVal * radiusY_vertical;
+      const y = -cosVal * radiusY_vertical;
       const z = cosVal * radiusZ;
       
       // Kusursuz Lineer Ölçekleme (Önler büyük, arkalar küçük!)
@@ -162,7 +162,7 @@ function updateOrbitalTransforms() {
   } else {
     // MASAÜSTÜ İÇİN SÜPER-PREMIUM KESİNTİSİZ 3D ELİPS DÖNME DOLAP MOTORU
     const radiusX = 460; // Geniş sinematik yatay yay
-    const radiusY_vertical = 60; // Harikulade 3D elips kavisi!
+    const radiusY_vertical = 90; // Harikulade 3D elips kavisi (Derinlik daha da arttırıldı!)
     const radiusZ = 180; // Güçlü 3D derinlik projeksiyonu
 
     calculatedAngles.forEach((data, i) => {
@@ -170,9 +170,9 @@ function updateOrbitalTransforms() {
       const rad = (relAngle * Math.PI) / 180;
       const cosVal = Math.cos(rad); // -1 ile 1 arası değer
       
-      // Kesintisiz 3D dairesel koordinatlar (Tam 360 derece döner!)
+      // Kesintisiz 3D dairesel koordinatlar (Y ekseni tersine çevrildi: Önler yukarıda, arkalar aşağıda!)
       const x = Math.sin(rad) * radiusX;
-      const y = cosVal * radiusY_vertical;
+      const y = -cosVal * radiusY_vertical;
       const z = cosVal * radiusZ;
       
       // Kusursuz Lineer Ölçekleme (Ön taraf 1.38x büyür, arka taraf 0.65x küçülerek arkadan süzülür!)
