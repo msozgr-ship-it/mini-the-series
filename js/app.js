@@ -91,46 +91,58 @@ function updateOrbitalTransforms() {
   const angleStep = 360 / count;
   const isMobile = window.innerWidth < 768;
 
+  // 1. ADIM: Merkez odak noktasını belirle (Tek aktif kart garantisi)
+  let closestIndex = -1;
+  let minAbsAngle = 999999;
+  
+  const calculatedAngles = Array.from(items).map((item, i) => {
+    let relAngle = (i * angleStep) + currentRotation;
+    relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
+    const absAngle = Math.abs(relAngle);
+    if (absAngle < minAbsAngle) {
+      minAbsAngle = absAngle;
+      closestIndex = i;
+    }
+    return { item, relAngle, absAngle };
+  });
+
   if (isMobile) {
-    // MOBİL İÇİN KUSURSUZ GEOMETRİK 3D ELİPS PERSPEKTİFİ
+    // MOBİL İÇİN KUSURSUZ DENGELİ 3D ELİPS GEOMETRİSİ
     const screenW = window.innerWidth;
     const maxSpanX = (screenW / 2) - 48;
-    const radiusX = Math.min(maxSpanX, 115); // Ekrandan taşmayı önleyen sıkı genişlik
-    const radiusY_vertical = 22; // Mobil için narin eliptik dikey kavis amplitude
-    const radiusZ = 60; // Derinlik hissiyatı
+    const radiusX = Math.min(maxSpanX, 115);
+    const radiusY_vertical = 24; // Harika dikey elips kavis derinliği
+    const radiusZ = 60;
 
-    items.forEach((item, i) => {
-      let relAngle = (i * angleStep) + currentRotation;
-      relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
-      
+    calculatedAngles.forEach((data, i) => {
+      const { item, relAngle, absAngle } = data;
       const rad = (relAngle * Math.PI) / 180;
-      const x = Math.sin(rad) * radiusX;
-      // Matematiksel eliptik dikey kaydırma: ön taraf aşağıda, arka taraf yukarıda!
+      
+      // Symmetrical Blended Spacing (Aralıkları eşitleyen hibrit projeksiyon)
+      const x = (0.5 * Math.sin(rad) + 0.5 * (relAngle / 90)) * radiusX;
       const y = Math.cos(rad) * radiusY_vertical;
       const z = Math.cos(rad) * radiusZ;
       
-      // Kusursuz GPU-Scale
-      const distFromCenter = Math.abs(relAngle);
+      // GPU Scale
       const scaleFactor = 1.32;
       const minScale = 0.8;
       
       let scale = minScale;
-      if (distFromCenter < 90) {
-        const norm = distFromCenter / 90;
+      if (absAngle < 90) {
+        const norm = absAngle / 90;
         const cosFactor = Math.cos(norm * Math.PI / 2);
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      // Afişleri asla bozmayan mükemmel dikey hizalı ve hafif kavisli rotasyon
+      // Kavisli ama dik rotasyon
       const rotY = relAngle * 0.22;
       item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
-      const absAngle = Math.abs(relAngle);
-      
-      if (absAngle < 22) {
+      // Tek aktif kartı odaklama
+      if (i === closestIndex) {
         item.classList.add('active');
         item.style.opacity = "1";
-        item.style.zIndex = "20000";
+        item.style.zIndex = "25000";
         item.style.pointerEvents = "auto";
       } else {
         item.classList.remove('active');
@@ -143,47 +155,44 @@ function updateOrbitalTransforms() {
           item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
           item.style.pointerEvents = "auto";
         }
-        item.style.zIndex = Math.round(z);
+        // Kusursuz z-index dizilimi
+        item.style.zIndex = Math.round(20000 - absAngle * 10);
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN KUSURSUZ SATURN ELİPSİ (ŞIK, PROFESYONEL VE HİZALI)
-    const radiusX = 460; // Afiş aralıklarını eşitleyen ve boşlukları yok eden ideal genişlik
-    const radiusY_vertical = 45; // Elips eğimini mükemmel şekilde yansıtan dikey amplitude
-    const radiusZ = 180; // 3D Derinlik projeksiyonu
+    // MASAÜSTÜ İÇİN SATURN ELİPSİ (BOŞLUKSUZ VE HİZALI SÜPER-Premium HİBRİT)
+    const radiusX = 460; 
+    const radiusY_vertical = 55; // Mükemmel dikey elips kavisi!
+    const radiusZ = 180;
 
-    items.forEach((item, i) => {
-      let relAngle = (i * angleStep) + currentRotation;
-      relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
-      
+    calculatedAngles.forEach((data, i) => {
+      const { item, relAngle, absAngle } = data;
       const rad = (relAngle * Math.PI) / 180;
-      const x = Math.sin(rad) * radiusX;
-      // Kusursuz elips kavis geometrisi (Önler aşağı süzülür, yanlar merkeze bükülür, arkalar yukarı çıkar!)
+      
+      // Hibrit Ararlık Eşitleme Motoru (Geniş orta boşlukları söküp atan, kenar yığılmasını çözen formül!)
+      const x = (0.45 * Math.sin(rad) + 0.55 * (relAngle / 90)) * radiusX;
       const y = Math.cos(rad) * radiusY_vertical;
       const z = Math.cos(rad) * radiusZ;
       
       // Pürüzsüz GPU Scale
-      const distFromCenter = Math.abs(relAngle);
       const scaleFactor = 1.38;
       const minScale = 0.86;
       
       let scale = minScale;
-      if (distFromCenter < 90) {
-        const norm = distFromCenter / 90;
+      if (absAngle < 90) {
+        const norm = absAngle / 90;
         const cosFactor = Math.cos(norm * Math.PI / 2);
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      // Jilet gibi düz, dikey duran ama eliptik yörüngeyi takip eden asil sinematik rotasyon
       const rotY = relAngle * 0.25; 
       item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
-      const absAngle = Math.abs(relAngle);
-      
-      if (absAngle < 15) {
+      // Tek aktif kartı odaklama
+      if (i === closestIndex) {
         item.classList.add('active');
         item.style.opacity = "1";
-        item.style.zIndex = "20000";
+        item.style.zIndex = "25000";
         item.style.pointerEvents = "auto";
       } else {
         item.classList.remove('active');
@@ -196,7 +205,8 @@ function updateOrbitalTransforms() {
           item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
           item.style.pointerEvents = "auto";
         }
-        item.style.zIndex = Math.round(z);
+        // Kusursuz z-index dizilimi (Asla çakışma olamaz!)
+        item.style.zIndex = Math.round(20000 - absAngle * 10);
       }
     });
   }
