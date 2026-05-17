@@ -1,4 +1,28 @@
-// Versiyon 4.1 - Akıllı Odaklama ve Gecikmeli Dönüş Motoru
+// KUSURSUZ TAM EKRAN LOGO MASKESİ KİLİT MOTORU
+// Oynatıcı içindeki tam ekran butonuna basıldığında iframe yerine dış tuvali (.player-canvas) 
+// tam ekrana geçirir. Böylece kırmızı nokta ve siyah logo engelleyici tam ekranda da sızmaz!
+if (typeof HTMLIFrameElement !== 'undefined') {
+  const originalRequest = HTMLIFrameElement.prototype.requestFullscreen || 
+                          HTMLIFrameElement.prototype.webkitRequestFullscreen || 
+                          HTMLIFrameElement.prototype.msRequestFullscreen;
+
+  const customFullscreen = function(options) {
+    const canvas = document.querySelector('.player-canvas');
+    if (canvas) {
+      if (canvas.requestFullscreen) return canvas.requestFullscreen(options);
+      if (canvas.webkitRequestFullscreen) return canvas.webkitRequestFullscreen(options);
+      if (canvas.msRequestFullscreen) return canvas.msRequestFullscreen(options);
+    }
+    if (originalRequest) return originalRequest.apply(this, arguments);
+    return Promise.reject(new Error("Fullscreen not supported"));
+  };
+
+  HTMLIFrameElement.prototype.requestFullscreen = customFullscreen;
+  HTMLIFrameElement.prototype.webkitRequestFullscreen = customFullscreen;
+  HTMLIFrameElement.prototype.mozRequestFullScreen = customFullscreen;
+  HTMLIFrameElement.prototype.msRequestFullscreen = customFullscreen;
+}
+
 let allContent = [];
 let orbitalContent = [];
 let filteredContent = [];
@@ -14,7 +38,9 @@ function initApp() {
   try {
     if (typeof DB === 'undefined') return;
     allContent = [...DB.movies, ...DB.series];
-    orbitalContent = [...allContent]; 
+    
+    // DÖNME DOLAPTA ARTIK SADECE TEKLİ FİMLERİN AFİŞLERİ OLACAK (Seriler ve koleksiyonlar elendi!)
+    orbitalContent = allContent.filter(item => !(item.isCollection || item.episodes)); 
     filteredContent = [...allContent];
 
     renderOrbital();
@@ -22,6 +48,24 @@ function initApp() {
     setupSearch();
     setupDragEvents();
     animate();
+
+    // Çift Güvenlikli Tam Ekran Dinleyicisi
+    let isHandlingFs = false;
+    const fsHandler = () => {
+      const iframe = document.getElementById('player-frame');
+      const canvas = document.querySelector('.player-canvas');
+      if (!iframe || !canvas) return;
+      if (document.fullscreenElement === iframe && !isHandlingFs) {
+        isHandlingFs = true;
+        document.exitFullscreen().then(() => {
+          if (canvas.requestFullscreen) canvas.requestFullscreen();
+          else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+          isHandlingFs = false;
+        }).catch(() => { isHandlingFs = false; });
+      }
+    };
+    document.addEventListener('fullscreenchange', fsHandler);
+    document.addEventListener('webkitfullscreenchange', fsHandler);
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') { closePlayer(); closeDetails(); }
@@ -502,28 +546,6 @@ function closePlayer() {
   }
 }
 
-function toggleCinemaFullscreen() {
-  const canvas = document.querySelector('.player-canvas');
-  if (!canvas) return;
-  
-  if (!document.fullscreenElement) {
-    if (canvas.requestFullscreen) {
-      canvas.requestFullscreen();
-    } else if (canvas.webkitRequestFullscreen) {
-      canvas.webkitRequestFullscreen();
-    } else if (canvas.msRequestFullscreen) {
-      canvas.msRequestFullscreen();
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  }
-}
 
 
 function resetFilter() {
