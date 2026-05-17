@@ -93,7 +93,7 @@ function updateOrbitalTransforms() {
     const x = Math.sin(rad) * radiusX;
     const z = Math.cos(rad) * radiusZ;
     
-    item.style.transform = `translate3d(${x}px, 0, ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
+    item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
     
     const normalizedAngle = ((angle % 360) + 360) % 360;
     
