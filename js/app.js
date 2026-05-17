@@ -88,51 +88,86 @@ function updateOrbitalTransforms() {
   const count = items.length;
   const angleStep = 360 / count;
   const isMobile = window.innerWidth < 768;
-  
-  // Düzgün bir dairesel dağılım oluşturmak ve eliptik aralık kaymalarını sıfırlamak için yarıçapları dairesel yapıyoruz.
-  // Tarayıcının 3D CSS motoru (rotateX) bu daireyi ekranda kusursuz eşit aralıklı bir elipse dönüştürür!
-  const radius = isMobile ? Math.max(window.innerWidth * 0.55, 210) : 560;
-  const radiusX = radius;
-  const radiusZ = radius;
 
-  items.forEach((item, i) => {
-    const angle = (i * angleStep) + currentRotation;
-    const rad = (angle * Math.PI) / 180;
-    const x = Math.sin(rad) * radiusX;
-    const z = Math.cos(rad) * radiusZ;
-    
-    item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
-    
-    const normalizedAngle = ((angle % 360) + 360) % 360;
-    
-    // Mobilde aktiflik aralığını biraz daha esnek tutuyoruz
-    const activeRange = isMobile ? 22 : 15;
-    const isActive = normalizedAngle < activeRange || normalizedAngle > (360 - activeRange);
-    
-    if (isActive) {
-      item.classList.add('active');
-      item.style.opacity = "1";
-      item.style.zIndex = "20000";
-      item.style.pointerEvents = "auto";
-    } else {
-      item.classList.remove('active');
+  if (isMobile) {
+    // MOBİL İÇİN SINIRLANDIRILMIŞ VE EŞİT ARALIKLI HASSAS 3D ARC (KAVİSLİ DESTE) MİMARİSİ
+    // Bu mimari, kartların asla ekran dışına taşmamasını ve aralıkların kusursuz olmasını garanti eder.
+    const screenW = window.innerWidth;
+    // Maksimum yatay yayılımı (ekran genişliğinin yarısından kart genişliğinin yarısını ve güvenli boşluğu çıkararak) hesaplıyoruz
+    const maxSpanX = (screenW / 2) - 55; // 390px ekran için ~140px, 360px ekran için ~125px
+    const radiusX = Math.min(maxSpanX, 130); 
+    const radiusZ = 70; // Arkaya kavis derinliği
+
+    items.forEach((item, i) => {
+      // Her kartın merkez noktadan olan sürekli açısını bulup -180 ile +180 arasına çekiyoruz
+      let relAngle = (i * angleStep) + currentRotation;
+      relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
       
-      // Arkada kalan ve kargaşa yaratan kartları tespit ediyoruz
-      const isBack = normalizedAngle > 75 && normalizedAngle < 285;
+      const rad = (relAngle * Math.PI) / 180;
+      const x = Math.sin(rad) * radiusX;
+      // Z ekseninde öne doğru bombeli bir kavis (0 derecede en önde z=radiusZ, yanlarda z=0)
+      const z = Math.cos(rad) * radiusZ;
       
-      if (isMobile) {
-        // Mobilde arkadaki kartları gizleyerek üst üste binme hissini sıfırlıyoruz!
-        item.style.opacity = isBack ? "0" : "0.45";
-        item.style.pointerEvents = isBack ? "none" : "auto";
+      // Mobilde kavisli 3D projeksiyonu uyguluyoruz (sarkmayı ve kaymayı sıfırlar)
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${relAngle * 0.55}deg) rotateX(-15deg)`;
+      
+      const absAngle = Math.abs(relAngle);
+      
+      // Aktiflik algılama (en öndeki)
+      if (absAngle < 22) {
+        item.classList.add('active');
+        item.style.opacity = "1";
+        item.style.zIndex = "20000";
+        item.style.pointerEvents = "auto";
       } else {
+        item.classList.remove('active');
+        
+        // Ekranın çok yanına veya arkasına sarkan kartları yumuşakça söndürüyoruz
+        if (absAngle > 85) {
+          item.style.opacity = "0";
+          item.style.pointerEvents = "none";
+        } else {
+          // Yanlara doğru gittikçe yumuşak bir opaklık sönmesi (cosinus geçişi)
+          const factor = Math.cos(rad);
+          item.style.opacity = (0.2 + factor * 0.55).toFixed(2);
+          item.style.pointerEvents = "auto";
+        }
+        item.style.zIndex = Math.round(z);
+      }
+    });
+  } else {
+    // MASAÜSTÜ İÇİN ULTRA-GENİŞ DAİRESEL PERSPEKTİF MİMARİSİ
+    const radiusX = 560;
+    const radiusZ = 560;
+
+    items.forEach((item, i) => {
+      const angle = (i * angleStep) + currentRotation;
+      const rad = (angle * Math.PI) / 180;
+      const x = Math.sin(rad) * radiusX;
+      const z = Math.cos(rad) * radiusZ;
+      
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
+      
+      const normalizedAngle = ((angle % 360) + 360) % 360;
+      const isActive = normalizedAngle < 15 || normalizedAngle > 345;
+      
+      if (isActive) {
+        item.classList.add('active');
+        item.style.opacity = "1";
+        item.style.zIndex = "20000";
+        item.style.pointerEvents = "auto";
+      } else {
+        item.classList.remove('active');
+        
+        const isBack = normalizedAngle > 80 && normalizedAngle < 280;
         item.style.opacity = isBack ? "0.15" : "0.55";
         item.style.pointerEvents = "auto";
+        item.style.zIndex = Math.round(z);
       }
-      
-      item.style.zIndex = Math.round(z);
-    }
-  });
+    });
+  }
 }
+
 
 
 function handleOrbitalClick(index, id) {
