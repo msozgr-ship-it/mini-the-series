@@ -190,15 +190,16 @@ body::after {
     50% { opacity: 0.65; transform: translate(-50%, -53%) translateZ(-500px) rotate(-1.5deg) scale(1.03); filter: blur(0px); } 
 }
 
-/* SATURN RING BELT (Dengeli ve Aşağıda) */
+/* SATURN RING BELT (Dengeli ve Düz Yatay Düzlem) */
 .orbital-belt {
     position: relative; width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     transform-style: preserve-3d;
-    transform: rotateX(45deg) translateY(180px); /* 180px aşağıda */
+    transform: rotateX(0deg) translateY(45px); /* Düz, temiz ve hizalı yörünge */
     transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
     z-index: 500;
 }
+
 
 /* FANTASTIC CARDS IMPROVED */
 .cf-item {

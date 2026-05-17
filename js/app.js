@@ -92,11 +92,11 @@ function updateOrbitalTransforms() {
   const isMobile = window.innerWidth < 768;
 
   if (isMobile) {
-    // MOBİL İÇİN SINIRLANDIRILMIŞ VE EŞİT ARALIKLI HASSAS 3D ARC (KAVİSLİ DESTE) MİMARİSİ
+    // MOBİL İÇİN HİZALANMIŞ VE KUSURSUZ 3D PANORAMİK ARC MİMARİSİ (HİÇBİR BÖCÜK EĞİKLİK OLMADAN)
     const screenW = window.innerWidth;
-    const maxSpanX = (screenW / 2) - 52; // Asla ekrandan taşmaz!
+    const maxSpanX = (screenW / 2) - 52;
     const radiusX = Math.min(maxSpanX, 125); 
-    const radiusZ = 65; // Kavis derinliği
+    const radiusZ = 60; // Hafif derinlik
 
     items.forEach((item, i) => {
       // Sürekli açıyı -180 ile +180 arasına çekiyoruz
@@ -107,7 +107,7 @@ function updateOrbitalTransforms() {
       const x = Math.sin(rad) * radiusX;
       const z = Math.cos(rad) * radiusZ;
       
-      // Kusursuz GPU-Accelerated 3D Scale Hesaplaması (Layout reflow olmadan akıcı büyüme/küçülme)
+      // Kusursuz GPU-Scale
       const distFromCenter = Math.abs(relAngle);
       const scaleFactor = 1.32;
       const minScale = 0.8;
@@ -119,12 +119,12 @@ function updateOrbitalTransforms() {
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      // Mobilde kavisli 3D projeksiyon + GPU-hızlandırmalı Scale uyguluyoruz
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${relAngle * 0.55}deg) rotateX(-15deg)`;
+      // Yörünge düzleştiği için dikey eğiklik yok (rotateX: 0). Sadece hafifçe merkeze bakan rotasyon (rotateY).
+      const rotY = relAngle * 0.22;
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
       const absAngle = Math.abs(relAngle);
       
-      // Aktiflik algılama (en öndeki)
       if (absAngle < 22) {
         item.classList.add('active');
         item.style.opacity = "1";
@@ -133,22 +133,22 @@ function updateOrbitalTransforms() {
       } else {
         item.classList.remove('active');
         
-        // Ekranın çok yanına veya arkasına sarkan kartları yumuşakça söndürüyoruz
-        if (absAngle > 85) {
+        // Çok arkada kalanları gizle, diğerlerini pürüzsüz kosinüsle söndür
+        if (absAngle > 95) {
           item.style.opacity = "0";
           item.style.pointerEvents = "none";
         } else {
           const factor = Math.cos(rad);
-          item.style.opacity = (0.2 + factor * 0.55).toFixed(2);
+          item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
           item.style.pointerEvents = "auto";
         }
         item.style.zIndex = Math.round(z);
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN ULTRA-GENİŞ DAİRESEL VE GPU-SCALE PERSPEKTİF MİMARİSİ
-    const radiusX = 560;
-    const radiusZ = 560;
+    // MASAÜSTÜ İÇİN ULTRA-LÜKS PANORAMİK STADYUM YÖRÜNGESİ (DÜZ VE DENGELİ)
+    const radiusX = 540;
+    const radiusZ = 220; // Dengeli elips yörünge derinliği
 
     items.forEach((item, i) => {
       let relAngle = (i * angleStep) + currentRotation;
@@ -158,10 +158,10 @@ function updateOrbitalTransforms() {
       const x = Math.sin(rad) * radiusX;
       const z = Math.cos(rad) * radiusZ;
       
-      // Masaüstü pürüzsüz GPU Scale interpolasyonu
+      // Masaüstü pürüzsüz GPU Scale
       const distFromCenter = Math.abs(relAngle);
       const scaleFactor = 1.38;
-      const minScale = 0.88;
+      const minScale = 0.86;
       
       let scale = minScale;
       if (distFromCenter < 90) {
@@ -170,12 +170,13 @@ function updateOrbitalTransforms() {
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${relAngle}deg) rotateX(-45deg)`;
+      // Eğrilme ve baş aşağı dönmeleri tamamen yok eden pürüzsüz odak rotasyonu
+      const rotY = relAngle * 0.25; // Sadece hafifçe merkeze doğru kavislenir, asla yan dönüp kaybolmaz
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
-      const normalizedAngle = ((relAngle % 360) + 360) % 360;
-      const isActive = normalizedAngle < 15 || normalizedAngle > 345;
+      const absAngle = Math.abs(relAngle);
       
-      if (isActive) {
+      if (absAngle < 15) {
         item.classList.add('active');
         item.style.opacity = "1";
         item.style.zIndex = "20000";
@@ -183,14 +184,22 @@ function updateOrbitalTransforms() {
       } else {
         item.classList.remove('active');
         
-        const isBack = normalizedAngle > 80 && normalizedAngle < 280;
-        item.style.opacity = isBack ? "0.15" : "0.55";
-        item.style.pointerEvents = "auto";
+        // Arkadaki afiş karmaşasını yok etmek için sadece ön kavisdekileri gösteriyoruz
+        if (absAngle > 100) {
+          item.style.opacity = "0";
+          item.style.pointerEvents = "none";
+        } else {
+          // Pürüzsüz kosinüs geçişi (Harici opaklık zıplamaları sıfırlandı!)
+          const factor = Math.cos(rad);
+          item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
+          item.style.pointerEvents = "auto";
+        }
         item.style.zIndex = Math.round(z);
       }
     });
   }
 }
+
 
 
 
