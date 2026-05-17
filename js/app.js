@@ -268,7 +268,13 @@ function renderOrbital() {
 function renderContent() {
   const content = document.getElementById('content-matrix');
   if (!content) return;
-  content.innerHTML = `<div class="movie-grid">${filteredContent.map(item => {
+
+  // Seri ve tekli filmleri filtrele
+  const collections = filteredContent.filter(item => item.isCollection || item.episodes);
+  const singles = filteredContent.filter(item => !(item.isCollection || item.episodes));
+
+  // Kart HTML oluşturucu yardımcı fonksiyon
+  const makeCardHtml = (item) => {
     const isColl = item.isCollection || item.episodes;
     return `
       <div class="card-wrapper ${isColl ? 'collection-stack' : ''}" onclick="handleItemClick('${item.id}')">
@@ -278,7 +284,27 @@ function renderContent() {
         </div>
       </div>
     `;
-  }).join('')}</div>`;
+  };
+
+  content.innerHTML = `
+    <div class="split-matrix-container">
+      <!-- SOL BLOK: SERİ FİLMLER & KOLEKSİYONLAR -->
+      <div class="matrix-column">
+        <h3 class="matrix-column-title">SERİ FİLMLER & KOLEKSİYONLAR</h3>
+        <div class="split-grid">
+          ${collections.length > 0 ? collections.map(makeCardHtml).join('') : '<div class="no-results-text">Seri film bulunamadı.</div>'}
+        </div>
+      </div>
+
+      <!-- SAĞ BLOK: TEKLİ FİLMLER -->
+      <div class="matrix-column">
+        <h3 class="matrix-column-title">TEKLİ FİLMLER</h3>
+        <div class="split-grid">
+          ${singles.length > 0 ? singles.map(makeCardHtml).join('') : '<div class="no-results-text">Tekli film bulunamadı.</div>'}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function handleItemClick(id) {

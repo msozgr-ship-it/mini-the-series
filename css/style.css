@@ -234,13 +234,77 @@ body::after {
 }
 .ctrl-btn:hover { background: var(--accent); box-shadow: 0 0 15px var(--accent); }
 
-/* MATRIX RESPONSIVE */
-.content-matrix { padding: 60px; background: rgba(3,3,5,0.8); position: relative; z-index: 10; }
-.movie-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 15px; }
+/* MATRIX RESPONSIVE - 5-5 BÖLÜNMÜŞ PREMİUM IZGARA SİSTEMİ */
+.content-matrix { 
+    padding: 60px; 
+    background: rgba(3,3,5,0.9); 
+    position: relative; 
+    z-index: 10;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+.split-matrix-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.matrix-column {
+    display: flex;
+    flex-direction: column;
+}
+.matrix-column-title {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+.matrix-column-title::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(255, 15, 35, 0.4), transparent);
+}
+.split-grid { 
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px; 
+}
 .card { width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.4s; }
 .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.4s; }
 .card-wrapper:hover .card { border-color: var(--accent); box-shadow: 0 0 20px rgba(255,15,35,0.3); transform: translateY(-10px); }
 .card-wrapper:hover img { opacity: 1; }
+
+.no-results-text {
+    grid-column: span 5;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 60px 0;
+    text-transform: uppercase;
+}
+
+@media (max-width: 1200px) {
+    .split-matrix-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+@media (max-width: 768px) {
+    .split-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 
 /* NAVIGATION */
 .top-nav {
