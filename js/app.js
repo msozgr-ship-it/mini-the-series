@@ -47,6 +47,7 @@ function setupDragEvents() {
 
   const onStart = (e) => {
     isDragging = true;
+    dragArea.classList.add('dragging'); // Sürükleme esnasında CSS geçişlerini kapatarak 0ms gecikme sağlarız!
     startX = e.pageX || (e.touches && e.touches[0] ? e.touches[0].pageX : 0);
     startRotation = currentRotation;
     clearTimeout(pauseTimeout);
@@ -70,6 +71,7 @@ function setupDragEvents() {
   const onEnd = () => {
     if (!isDragging) return;
     isDragging = false;
+    dragArea.classList.remove('dragging'); // Sürükleme bittiğinde yumuşak animasyonları geri açarız!
     // Bıraktıktan 3 saniye sonra dönmeye devam etsin (kullanıcı etkileşimi bittiyse)
     startPauseTimer(3000);
   };
@@ -91,25 +93,34 @@ function updateOrbitalTransforms() {
 
   if (isMobile) {
     // MOBİL İÇİN SINIRLANDIRILMIŞ VE EŞİT ARALIKLI HASSAS 3D ARC (KAVİSLİ DESTE) MİMARİSİ
-    // Bu mimari, kartların asla ekran dışına taşmamasını ve aralıkların kusursuz olmasını garanti eder.
     const screenW = window.innerWidth;
-    // Maksimum yatay yayılımı (ekran genişliğinin yarısından kart genişliğinin yarısını ve güvenli boşluğu çıkararak) hesaplıyoruz
-    const maxSpanX = (screenW / 2) - 55; // 390px ekran için ~140px, 360px ekran için ~125px
-    const radiusX = Math.min(maxSpanX, 130); 
-    const radiusZ = 70; // Arkaya kavis derinliği
+    const maxSpanX = (screenW / 2) - 52; // Asla ekrandan taşmaz!
+    const radiusX = Math.min(maxSpanX, 125); 
+    const radiusZ = 65; // Kavis derinliği
 
     items.forEach((item, i) => {
-      // Her kartın merkez noktadan olan sürekli açısını bulup -180 ile +180 arasına çekiyoruz
+      // Sürekli açıyı -180 ile +180 arasına çekiyoruz
       let relAngle = (i * angleStep) + currentRotation;
       relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
       
       const rad = (relAngle * Math.PI) / 180;
       const x = Math.sin(rad) * radiusX;
-      // Z ekseninde öne doğru bombeli bir kavis (0 derecede en önde z=radiusZ, yanlarda z=0)
       const z = Math.cos(rad) * radiusZ;
       
-      // Mobilde kavisli 3D projeksiyonu uyguluyoruz (sarkmayı ve kaymayı sıfırlar)
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${relAngle * 0.55}deg) rotateX(-15deg)`;
+      // Kusursuz GPU-Accelerated 3D Scale Hesaplaması (Layout reflow olmadan akıcı büyüme/küçülme)
+      const distFromCenter = Math.abs(relAngle);
+      const scaleFactor = 1.32;
+      const minScale = 0.8;
+      
+      let scale = minScale;
+      if (distFromCenter < 90) {
+        const norm = distFromCenter / 90;
+        const cosFactor = Math.cos(norm * Math.PI / 2);
+        scale = minScale + (scaleFactor - minScale) * cosFactor;
+      }
+      
+      // Mobilde kavisli 3D projeksiyon + GPU-hızlandırmalı Scale uyguluyoruz
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${relAngle * 0.55}deg) rotateX(-15deg)`;
       
       const absAngle = Math.abs(relAngle);
       
@@ -127,7 +138,6 @@ function updateOrbitalTransforms() {
           item.style.opacity = "0";
           item.style.pointerEvents = "none";
         } else {
-          // Yanlara doğru gittikçe yumuşak bir opaklık sönmesi (cosinus geçişi)
           const factor = Math.cos(rad);
           item.style.opacity = (0.2 + factor * 0.55).toFixed(2);
           item.style.pointerEvents = "auto";
@@ -136,19 +146,33 @@ function updateOrbitalTransforms() {
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN ULTRA-GENİŞ DAİRESEL PERSPEKTİF MİMARİSİ
+    // MASAÜSTÜ İÇİN ULTRA-GENİŞ DAİRESEL VE GPU-SCALE PERSPEKTİF MİMARİSİ
     const radiusX = 560;
     const radiusZ = 560;
 
     items.forEach((item, i) => {
-      const angle = (i * angleStep) + currentRotation;
-      const rad = (angle * Math.PI) / 180;
+      let relAngle = (i * angleStep) + currentRotation;
+      relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
+      
+      const rad = (relAngle * Math.PI) / 180;
       const x = Math.sin(rad) * radiusX;
       const z = Math.cos(rad) * radiusZ;
       
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
+      // Masaüstü pürüzsüz GPU Scale interpolasyonu
+      const distFromCenter = Math.abs(relAngle);
+      const scaleFactor = 1.38;
+      const minScale = 0.88;
       
-      const normalizedAngle = ((angle % 360) + 360) % 360;
+      let scale = minScale;
+      if (distFromCenter < 90) {
+        const norm = distFromCenter / 90;
+        const cosFactor = Math.cos(norm * Math.PI / 2);
+        scale = minScale + (scaleFactor - minScale) * cosFactor;
+      }
+      
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${relAngle}deg) rotateX(-45deg)`;
+      
+      const normalizedAngle = ((relAngle % 360) + 360) % 360;
       const isActive = normalizedAngle < 15 || normalizedAngle > 345;
       
       if (isActive) {
@@ -167,6 +191,7 @@ function updateOrbitalTransforms() {
     });
   }
 }
+
 
 
 

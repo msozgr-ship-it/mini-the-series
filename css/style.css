@@ -225,8 +225,12 @@ body::after {
 }
 .cf-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.5s; border-radius: inherit; }
 
+/* Sürükleme esnasında sıfır gecikme (0ms lag) için geçişleri tamamen kapatıyoruz */
+.dragging .cf-item {
+    transition: none !important;
+}
+
 .cf-item.active { 
-    width: var(--card-active-w); height: var(--card-active-h);
     border-color: var(--accent);
     box-shadow: 0 0 60px rgba(255,15,35,0.6), 0 40px 80px rgba(0,0,0,1);
     z-index: 1000;
