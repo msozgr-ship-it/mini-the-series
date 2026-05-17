@@ -75,7 +75,7 @@ const DB = {
       id: "the-twits-movie",
       title: "The Twits",
       poster: "assets/img/thetwits.webp",
-      file: "https://pixeldrain.com/u/TWITS_ID",
+      file: "https://archive.org/embed/the-twits_202605",
       searchTags: "the twits, twits, animasyon, komedi, roald dahl, netflix, 2025",
       isNew: true
     },
