@@ -92,19 +92,21 @@ function updateOrbitalTransforms() {
   const isMobile = window.innerWidth < 768;
 
   if (isMobile) {
-    // MOBİL İÇİN HİZALANMIŞ VE KUSURSUZ 3D PANORAMİK ARC MİMARİSİ (HİÇBİR BÖCÜK EĞİKLİK OLMADAN)
+    // MOBİL İÇİN KUSURSUZ GEOMETRİK 3D ELİPS PERSPEKTİFİ
     const screenW = window.innerWidth;
-    const maxSpanX = (screenW / 2) - 52;
-    const radiusX = Math.min(maxSpanX, 125); 
-    const radiusZ = 60; // Hafif derinlik
+    const maxSpanX = (screenW / 2) - 48;
+    const radiusX = Math.min(maxSpanX, 115); // Ekrandan taşmayı önleyen sıkı genişlik
+    const radiusY_vertical = 22; // Mobil için narin eliptik dikey kavis amplitude
+    const radiusZ = 60; // Derinlik hissiyatı
 
     items.forEach((item, i) => {
-      // Sürekli açıyı -180 ile +180 arasına çekiyoruz
       let relAngle = (i * angleStep) + currentRotation;
       relAngle = ((relAngle + 180) % 360 + 360) % 360 - 180;
       
       const rad = (relAngle * Math.PI) / 180;
       const x = Math.sin(rad) * radiusX;
+      // Matematiksel eliptik dikey kaydırma: ön taraf aşağıda, arka taraf yukarıda!
+      const y = Math.cos(rad) * radiusY_vertical;
       const z = Math.cos(rad) * radiusZ;
       
       // Kusursuz GPU-Scale
@@ -119,9 +121,9 @@ function updateOrbitalTransforms() {
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      // Yörünge düzleştiği için dikey eğiklik yok (rotateX: 0). Sadece hafifçe merkeze bakan rotasyon (rotateY).
+      // Afişleri asla bozmayan mükemmel dikey hizalı ve hafif kavisli rotasyon
       const rotY = relAngle * 0.22;
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
       const absAngle = Math.abs(relAngle);
       
@@ -133,7 +135,6 @@ function updateOrbitalTransforms() {
       } else {
         item.classList.remove('active');
         
-        // Çok arkada kalanları gizle, diğerlerini pürüzsüz kosinüsle söndür
         if (absAngle > 95) {
           item.style.opacity = "0";
           item.style.pointerEvents = "none";
@@ -146,9 +147,10 @@ function updateOrbitalTransforms() {
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN ULTRA-LÜKS PANORAMİK STADYUM YÖRÜNGESİ (DÜZ VE DENGELİ)
-    const radiusX = 540;
-    const radiusZ = 220; // Dengeli elips yörünge derinliği
+    // MASAÜSTÜ İÇİN KUSURSUZ SATURN ELİPSİ (ŞIK, PROFESYONEL VE HİZALI)
+    const radiusX = 460; // Afiş aralıklarını eşitleyen ve boşlukları yok eden ideal genişlik
+    const radiusY_vertical = 45; // Elips eğimini mükemmel şekilde yansıtan dikey amplitude
+    const radiusZ = 180; // 3D Derinlik projeksiyonu
 
     items.forEach((item, i) => {
       let relAngle = (i * angleStep) + currentRotation;
@@ -156,9 +158,11 @@ function updateOrbitalTransforms() {
       
       const rad = (relAngle * Math.PI) / 180;
       const x = Math.sin(rad) * radiusX;
+      // Kusursuz elips kavis geometrisi (Önler aşağı süzülür, yanlar merkeze bükülür, arkalar yukarı çıkar!)
+      const y = Math.cos(rad) * radiusY_vertical;
       const z = Math.cos(rad) * radiusZ;
       
-      // Masaüstü pürüzsüz GPU Scale
+      // Pürüzsüz GPU Scale
       const distFromCenter = Math.abs(relAngle);
       const scaleFactor = 1.38;
       const minScale = 0.86;
@@ -170,9 +174,9 @@ function updateOrbitalTransforms() {
         scale = minScale + (scaleFactor - minScale) * cosFactor;
       }
       
-      // Eğrilme ve baş aşağı dönmeleri tamamen yok eden pürüzsüz odak rotasyonu
-      const rotY = relAngle * 0.25; // Sadece hafifçe merkeze doğru kavislenir, asla yan dönüp kaybolmaz
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + 0px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
+      // Jilet gibi düz, dikey duran ama eliptik yörüngeyi takip eden asil sinematik rotasyon
+      const rotY = relAngle * 0.25; 
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
       const absAngle = Math.abs(relAngle);
       
@@ -184,12 +188,10 @@ function updateOrbitalTransforms() {
       } else {
         item.classList.remove('active');
         
-        // Arkadaki afiş karmaşasını yok etmek için sadece ön kavisdekileri gösteriyoruz
         if (absAngle > 100) {
           item.style.opacity = "0";
           item.style.pointerEvents = "none";
         } else {
-          // Pürüzsüz kosinüs geçişi (Harici opaklık zıplamaları sıfırlandı!)
           const factor = Math.cos(rad);
           item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
           item.style.pointerEvents = "auto";
