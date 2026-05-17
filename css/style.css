@@ -453,25 +453,28 @@ body::after {
 .player-container { position: relative; width: 100%; height: 100%; }
 #player-frame { width: 100%; height: 100%; border: none; }
 
-/* Video Sağ Üst Logoyu Engelleme Maskesi (Zarif Micro Daire) */
+/* Video Sağ Üst Logoyu Engelleme Maskesi (Kusursuz Entegre Köşe Paneli) */
 .player-logo-blocker {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
-    background: rgba(3, 3, 5, 0.95);
+    top: 0;
+    right: 0;
+    width: 56px;
+    height: 38px;
+    background: #030305; /* Mutlak maskeleme için opak siyah zemin */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 24px; /* Tuvalin 24px'lik kavisi ile sıfıra sıfır oturur */
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none; /* Tıklamaları engellemez */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: -4px 4px 15px rgba(0,0,0,0.6);
 }
+
 .blocker-dot {
     width: 8px;
     height: 8px;
