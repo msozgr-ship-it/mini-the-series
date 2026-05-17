@@ -67,7 +67,7 @@ const DB = {
       id: "ancak-ruyada-olur-movie",
       title: "Ancak Rüyada Olur",
       poster: "assets/img/ancakrüyadaolur.jpg",
-      file: "https://pixeldrain.com/u/RUYADA_ID",
+      file: "https://archive.org/embed/ancak-ruyada-olur",
       searchTags: "ancak rüyada olur, komedi, romantik, dram, 2024",
       isNew: true
     },
