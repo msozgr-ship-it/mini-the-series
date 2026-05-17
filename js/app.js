@@ -82,8 +82,10 @@ function updateOrbitalTransforms() {
   const count = items.length;
   const angleStep = 360 / count;
   const isMobile = window.innerWidth < 768;
-  const radiusX = isMobile ? window.innerWidth * 0.38 : 700; 
-  const radiusZ = isMobile ? window.innerWidth * 0.14 : 280;
+  
+  // Mobilde afişlerin üst üste binmemesi için X ve Z yarıçaplarını genişletip mükemmel açıyoruz
+  const radiusX = isMobile ? Math.max(window.innerWidth * 0.65, 250) : 700; 
+  const radiusZ = isMobile ? Math.max(window.innerWidth * 0.25, 95) : 280;
 
   items.forEach((item, i) => {
     const angle = (i * angleStep) + currentRotation;
@@ -94,14 +96,31 @@ function updateOrbitalTransforms() {
     item.style.transform = `translate3d(${x}px, 0, ${z}px) rotateY(${angle}deg) rotateX(-45deg)`;
     
     const normalizedAngle = ((angle % 360) + 360) % 360;
-    if (normalizedAngle < 15 || normalizedAngle > 345) {
+    
+    // Mobilde aktiflik aralığını biraz daha esnek tutuyoruz
+    const activeRange = isMobile ? 22 : 15;
+    const isActive = normalizedAngle < activeRange || normalizedAngle > (360 - activeRange);
+    
+    if (isActive) {
       item.classList.add('active');
       item.style.opacity = "1";
       item.style.zIndex = "20000";
+      item.style.pointerEvents = "auto";
     } else {
       item.classList.remove('active');
-      const isBack = normalizedAngle > 80 && normalizedAngle < 280;
-      item.style.opacity = isBack ? "0.15" : "0.5";
+      
+      // Arkada kalan ve kargaşa yaratan kartları tespit ediyoruz
+      const isBack = normalizedAngle > 75 && normalizedAngle < 285;
+      
+      if (isMobile) {
+        // Mobilde arkadaki kartları gizleyerek üst üste binme hissini sıfırlıyoruz!
+        item.style.opacity = isBack ? "0" : "0.45";
+        item.style.pointerEvents = isBack ? "none" : "auto";
+      } else {
+        item.style.opacity = isBack ? "0.15" : "0.55";
+        item.style.pointerEvents = "auto";
+      }
+      
       item.style.zIndex = Math.round(z);
     }
   });
