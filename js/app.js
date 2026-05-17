@@ -89,9 +89,11 @@ function updateOrbitalTransforms() {
   const angleStep = 360 / count;
   const isMobile = window.innerWidth < 768;
   
-  // Mobilde afişlerin üst üste binmemesi için X ve Z yarıçaplarını genişletip mükemmel açıyoruz
-  const radiusX = isMobile ? Math.max(window.innerWidth * 0.65, 250) : 700; 
-  const radiusZ = isMobile ? Math.max(window.innerWidth * 0.25, 95) : 280;
+  // Düzgün bir dairesel dağılım oluşturmak ve eliptik aralık kaymalarını sıfırlamak için yarıçapları dairesel yapıyoruz.
+  // Tarayıcının 3D CSS motoru (rotateX) bu daireyi ekranda kusursuz eşit aralıklı bir elipse dönüştürür!
+  const radius = isMobile ? Math.max(window.innerWidth * 0.55, 210) : 560;
+  const radiusX = radius;
+  const radiusZ = radius;
 
   items.forEach((item, i) => {
     const angle = (i * angleStep) + currentRotation;
@@ -131,6 +133,7 @@ function updateOrbitalTransforms() {
     }
   });
 }
+
 
 function handleOrbitalClick(index, id) {
   if (isDragging) return;
