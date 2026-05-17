@@ -487,8 +487,44 @@ function closeComingSoon() {
 function closePlayer() {
   const modal = document.getElementById('player-modal');
   const iframe = document.getElementById('player-frame');
-  if (modal) { modal.classList.remove('active'); setTimeout(() => { modal.style.display = 'none'; iframe.src = ''; }, 500); }
+  
+  // Tam ekrandan çıkış yap (aktifse)
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
+  
+  if (modal) { 
+    modal.classList.remove('active'); 
+    setTimeout(() => { 
+      modal.style.display = 'none'; 
+      iframe.src = ''; 
+    }, 500); 
+  }
 }
+
+function toggleCinemaFullscreen() {
+  const canvas = document.querySelector('.player-canvas');
+  if (!canvas) return;
+  
+  if (!document.fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) {
+      canvas.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+}
+
 
 function resetFilter() {
   filteredContent = [...allContent];
