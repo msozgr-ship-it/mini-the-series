@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SiomJourney | Spatial Cinema</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=5.3">
+    <link rel="stylesheet" href="css/style.css?v=5.4">
 </head>
 <body>
     <div class="bg-spatial"></div>
@@ -34,46 +34,55 @@
         <section class="hero-spatial" id="hero-drag-area">
             <div class="orbital-wrapper">
                 <div class="giant-s-neon">
-                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="sGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-                                <stop offset="40%" stop-color="var(--accent)"/>
+                                <stop offset="45%" stop-color="var(--accent)"/>
                                 <stop offset="100%" stop-color="#4a0005"/>
                             </linearGradient>
-                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="10" result="blur"/>
+                            <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+                                <feGaussianBlur stdDeviation="5" result="blur"/>
                                 <feMerge>
                                     <feMergeNode in="blur"/>
                                     <feMergeNode in="SourceGraphic"/>
                                 </feMerge>
                             </filter>
                         </defs>
-                        <!-- Orbital Dış Halka Detayları (Astral Çizgiler) -->
-                        <circle cx="100" cy="100" r="85" stroke="rgba(255, 15, 35, 0.22)" stroke-width="1" stroke-dasharray="8 6" />
-                        <circle cx="100" cy="100" r="74" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1.5" />
-                        <!-- Lüks Geometrik S-Sarmal Gövdesi -->
-                        <path d="M 62 56 
-                                 C 102 18, 162 32, 152 78 
-                                 C 142 118, 62 98, 52 138 
-                                 C 42 178, 102 192, 142 154" 
+                        <!-- Uzamsal Sinematik Odak Çizgileri (Professional Lens Crosshairs) -->
+                        <line x1="50" y1="2" x2="50" y2="8" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+                        <line x1="50" y1="92" x2="50" y2="98" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+                        <line x1="2" y1="50" x2="8" y2="50" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+                        <line x1="92" y1="50" x2="98" y2="50" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+
+                        <!-- İki Adet Dairesel Yörünge Halkası -->
+                        <circle cx="50" cy="50" r="43" stroke="rgba(255, 15, 35, 0.22)" stroke-width="0.8" stroke-dasharray="4 3" />
+                        <circle cx="50" cy="50" r="37" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1" />
+
+                        <!-- Matematiksel Olarak Kusursuz Simetrik Geometrik S-Ribbon -->
+                        <path d="M 72 26 
+                                 C 72 12, 28 12, 28 34 
+                                 C 28 57, 72 53, 72 74 
+                                 C 72 88, 28 88, 28 74" 
                               stroke="url(#sGrad)" 
-                              stroke-width="15" 
+                              stroke-width="7.5" 
                               stroke-linecap="round" 
                               stroke-linejoin="round"
                               filter="url(#glow)"/>
-                        <!-- 3D Specular Işık Şeridi (İç Kavis Işıltısı) -->
-                        <path d="M 62 56 
-                                 C 102 18, 162 32, 152 78 
-                                 C 142 118, 62 98, 52 138 
-                                 C 42 178, 102 192, 142 154" 
+
+                        <!-- 3D Specular Işık Hattı (Elmas Parlaklığı) -->
+                        <path d="M 72 26 
+                                 C 72 12, 28 12, 28 34 
+                                 C 28 57, 72 53, 72 74 
+                                 C 72 88, 28 88, 28 74" 
                               stroke="#ffffff" 
-                              stroke-width="2.5" 
+                              stroke-width="1.2" 
                               stroke-linecap="round" 
                               stroke-linejoin="round" 
-                              opacity="0.75" />
+                              opacity="0.8" />
                     </svg>
                 </div>
+
                 <div class="orbital-belt" id="orbital-container"></div>
             </div>
         </section>
@@ -128,7 +137,7 @@
         </div>
     </div>
 
-    <script src="js/data.js?v=5.3"></script>
-    <script src="js/app.js?v=5.3"></script>
+    <script src="js/data.js?v=5.4"></script>
+    <script src="js/app.js?v=5.4"></script>
 </body>
 </html>
