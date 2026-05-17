@@ -453,45 +453,38 @@ body::after {
 .player-container { position: relative; width: 100%; height: 100%; }
 #player-frame { width: 100%; height: 100%; border: none; }
 
-/* Video Sağ Üst Logoyu Engelleme Maskesi */
+/* Video Sağ Üst Logoyu Engelleme Maskesi (Zarif Micro Daire) */
 .player-logo-blocker {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 140px;
-    height: 48px;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
     background: rgba(3, 3, 5, 0.95);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom-left-radius: 12px;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    pointer-events: none; /* Tıklamaları engellemez, arkasındaki oynatıcı elemanları çalışır */
+    pointer-events: none; /* Tıklamaları engellemez */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 .blocker-dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     background: var(--accent);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent);
+    box-shadow: 0 0 10px var(--accent);
     animation: blockerPulse 2s infinite ease-in-out;
-}
-.blocker-text {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    color: rgba(255, 255, 255, 0.9);
-    font-family: 'Outfit', sans-serif;
 }
 @keyframes blockerPulse {
     0%, 100% { opacity: 0.4; transform: scale(0.9); }
     50% { opacity: 1; transform: scale(1.2); }
 }
+
 
 /* Responsive adjustments for Player */
 @media (max-width: 768px) {

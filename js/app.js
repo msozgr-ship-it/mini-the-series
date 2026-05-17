@@ -413,12 +413,18 @@ function openPlayer(file, title, poster) {
   if (playerBackdrop) playerBackdrop.style.backgroundImage = poster ? `url(${poster})` : '';
   
   let finalUrl = file;
-  if (file.includes('pixeldrain.com/u/')) finalUrl = file.replace('pixeldrain.com/u/', 'pixeldrain.com/u/') + '?embed';
+  if (file.includes('pixeldrain.com/u/')) {
+    finalUrl = file.replace('pixeldrain.com/u/', 'pixeldrain.com/u/') + '?embed';
+  } else if (file.includes('archive.org/embed/')) {
+    // Otomatik oynatma (autoplay) parametresi ekleyerek ikinci oynat butonunu tamamen baypas ediyoruz!
+    finalUrl = file + (file.includes('?') ? '&' : '?') + 'autoplay=1';
+  }
   
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
   iframe.src = finalUrl;
 }
+
 
 function openComingSoon(title, poster) {
   const modal = document.getElementById('coming-soon-modal');
