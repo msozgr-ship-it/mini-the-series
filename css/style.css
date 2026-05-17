@@ -35,47 +35,44 @@ body::after {
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.nav-left { display: flex; align-items: center; gap: 60px; }
+.nav-left { 
+    display: flex; 
+    align-items: center; 
+}
 .logo-s-small { 
     font-size: 36px; font-weight: 900; color: var(--accent); 
     text-shadow: var(--s-glow); cursor: pointer; transition: 0.3s;
 }
 .logo-s-small:hover { transform: scale(1.1); }
 
-.nav-links a { 
-    color: #fff; text-decoration: none; 
-    font-size: 13px; font-weight: 700; letter-spacing: 3px; 
-    text-transform: uppercase; opacity: 0.5; transition: 0.4s;
-    position: relative; padding: 10px 0;
+.nav-right {
+    flex-grow: 1;
+    margin-left: 80px;
+    display: flex;
+    justify-content: flex-end;
 }
-.nav-links a:hover, .nav-links a.active { opacity: 1; color: #fff; }
-.nav-links a::after {
-    content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
-    background: var(--accent); box-shadow: 0 0 10px var(--accent);
-    transition: 0.4s;
-}
-.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
-/* ULTRA-PROFESSIONAL SPATIAL SEARCH CONTEXT */
+/* ULTRA-PROFESSIONAL SPATIAL SEARCH CONTEXT (Genişletilmiş Üst Bar) */
 .search-container {
     position: relative;
     z-index: 16000;
+    width: 100%;
+    max-width: 1000px;
 }
 .search-bar { 
     display: flex; align-items: center; gap: 12px;
     background: rgba(255, 255, 255, 0.02); 
     border: 1px solid rgba(255, 255, 255, 0.06); 
-    border-radius: 40px; padding: 10px 20px; 
+    border-radius: 40px; padding: 12px 24px; 
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
     position: relative;
-    width: 230px;
+    width: 100%;
 }
 .search-bar:focus-within { 
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.05);
     border-color: var(--accent);
     box-shadow: 0 0 30px rgba(255, 15, 35, 0.25), inset 0 2px 10px rgba(0,0,0,0.5);
-    width: 300px;
 }
 
 /* Vector SVG search icon */
@@ -97,6 +94,7 @@ body::after {
 }
 .search-bar input::placeholder { color: rgba(255,255,255,0.25); text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; }
 
+
 /* Dynamic close / clear button inside the bar */
 .search-clear-btn {
     font-size: 10px; color: #fff; opacity: 0; cursor: pointer;
@@ -112,7 +110,7 @@ body::after {
 /* FLOATING INSTANT SEARCH SUGGESTION PANEL */
 .search-results-panel {
     position: absolute; top: calc(100% + 15px); right: 0;
-    width: 360px; max-height: 400px; overflow-y: auto;
+    width: 100%; max-height: 400px; overflow-y: auto;
     border-radius: 24px; background: rgba(10, 10, 15, 0.85);
     backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -122,6 +120,7 @@ body::after {
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     z-index: 17000;
 }
+
 .search-results-panel.active { display: flex; opacity: 1; transform: translateY(0); }
 
 /* Individual suggestion item */
@@ -850,3 +849,38 @@ body::after {
       display: none; /* Mobilde anasayfa linkini yer kazanmak için saklıyoruz */
   }
 }
+
+/* CINEMATIC BACKDROP VIDEO DYNAMIC GLOW (Dönme Dolap Arkası Hareketli Kesitler) */
+.hero-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3; /* S logosunun da arkasında kalır! */
+    opacity: 0;
+    transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+    pointer-events: none;
+}
+.hero-video-bg.active {
+    opacity: 0.16; /* Çok şık ve gözü yormayan hafif hareketli ışık */
+}
+.hero-video-bg iframe, .hero-video-bg video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 ratio */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 ratio */
+    transform: translate(-50%, -50%) scale(1.1); /* Siyah kenarları kesmek için hafifçe büyüt */
+    filter: blur(15px) brightness(0.65) contrast(1.1); /* Uzamsal Rüya Halesi */
+    border: none;
+    pointer-events: none;
+}
+
+/* TAM EKRAN TRANSFORMATION ENGELEYİCİ - TARAYICININ TAM EKRANDA SIĞINAK YAPMASINI ENGELLER */
+.player-modal.active .player-canvas { 
+    transform: none !important; 
+}
+
