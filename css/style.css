@@ -176,7 +176,8 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.55; user-select: none; z-index: 1;
+    opacity: 0.55; user-select: none; z-index: 19000;
+
     animation: sAfilli 8s infinite ease-in-out;
 }
 .giant-s-neon svg {

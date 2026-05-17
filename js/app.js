@@ -107,106 +107,106 @@ function updateOrbitalTransforms() {
   });
 
   if (isMobile) {
-    // MOBİL İÇİN KUSURSUZ DENGELİ 3D ELİPS GEOMETRİSİ
+    // MOBİL İÇİN KUSURSUZ KESİNTİSİZ 3D ELİPS DÖNME DOLAP MOTORU
     const screenW = window.innerWidth;
     const maxSpanX = (screenW / 2) - 48;
     const radiusX = Math.min(maxSpanX, 115);
-    const radiusY_vertical = 24; // Harika dikey elips kavis derinliği
-    const radiusZ = 60;
+    const radiusY_vertical = 24; // Dikey eliptik kavis derinliği
+    const radiusZ = 60; // 3D derinlik projeksiyonu
 
     calculatedAngles.forEach((data, i) => {
-      const { item, relAngle, absAngle } = data;
+      const { item, relAngle } = data;
       const rad = (relAngle * Math.PI) / 180;
+      const cosVal = Math.cos(rad); // -1 ile 1 arası değer
       
-      // Symmetrical Blended Spacing (Aralıkları eşitleyen hibrit projeksiyon)
-      const x = (0.5 * Math.sin(rad) + 0.5 * (relAngle / 90)) * radiusX;
-      const y = Math.cos(rad) * radiusY_vertical;
-      const z = Math.cos(rad) * radiusZ;
+      // Kusursuz kesintisiz 3D dairesel koordinatlar
+      const x = Math.sin(rad) * radiusX;
+      const y = cosVal * radiusY_vertical;
+      const z = cosVal * radiusZ;
       
-      // GPU Scale
-      const scaleFactor = 1.32;
-      const minScale = 0.8;
+      // Kusursuz Lineer Ölçekleme (Önler büyük, arkalar küçük!)
+      const maxScale = 1.32;
+      const minScale = 0.68;
+      const scale = minScale + (maxScale - minScale) * (cosVal + 1) / 2;
       
-      let scale = minScale;
-      if (absAngle < 90) {
-        const norm = absAngle / 90;
-        const cosFactor = Math.cos(norm * Math.PI / 2);
-        scale = minScale + (scaleFactor - minScale) * cosFactor;
-      }
-      
-      // Kavisli ama dik rotasyon
+      // Asil 3D yörünge eğimi
       const rotY = relAngle * 0.22;
       item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
+      
+      // Kesintisiz Opaklık (Önler parlak, arkalar loş!)
+      const maxOpacity = 1.0;
+      const minOpacity = 0.22;
+      const opacity = minOpacity + (maxOpacity - minOpacity) * (cosVal + 1) / 2;
+      item.style.opacity = opacity.toFixed(2);
       
       // Tek aktif kartı odaklama
       if (i === closestIndex) {
         item.classList.add('active');
-        item.style.opacity = "1";
-        item.style.zIndex = "25000";
+        item.style.zIndex = "25000"; // Odaktaki kart her zaman en üstte!
         item.style.pointerEvents = "auto";
       } else {
         item.classList.remove('active');
         
-        if (absAngle > 95) {
-          item.style.opacity = "0";
-          item.style.pointerEvents = "none";
-        } else {
-          const factor = Math.cos(rad);
-          item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
+        // S logosunun (19000 z-index) önünde veya arkasında olmasına göre kusursuz derinlik sıralaması!
+        const zIndexBase = Math.round(19000 + cosVal * 1000);
+        item.style.zIndex = zIndexBase;
+        
+        // Sadece ön yarımküredeki (S logosunun önündeki) kartlar tıklanabilir, arkadakiler sadece görsellik katar!
+        if (cosVal >= 0) {
           item.style.pointerEvents = "auto";
+        } else {
+          item.style.pointerEvents = "none";
         }
-        // Kusursuz z-index dizilimi
-        item.style.zIndex = Math.round(20000 - absAngle * 10);
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN SATURN ELİPSİ (BOŞLUKSUZ VE HİZALI SÜPER-Premium HİBRİT)
-    const radiusX = 460; 
-    const radiusY_vertical = 55; // Mükemmel dikey elips kavisi!
-    const radiusZ = 180;
+    // MASAÜSTÜ İÇİN SÜPER-PREMIUM KESİNTİSİZ 3D ELİPS DÖNME DOLAP MOTORU
+    const radiusX = 460; // Geniş sinematik yatay yay
+    const radiusY_vertical = 60; // Harikulade 3D elips kavisi!
+    const radiusZ = 180; // Güçlü 3D derinlik projeksiyonu
 
     calculatedAngles.forEach((data, i) => {
-      const { item, relAngle, absAngle } = data;
+      const { item, relAngle } = data;
       const rad = (relAngle * Math.PI) / 180;
+      const cosVal = Math.cos(rad); // -1 ile 1 arası değer
       
-      // Hibrit Ararlık Eşitleme Motoru (Geniş orta boşlukları söküp atan, kenar yığılmasını çözen formül!)
-      const x = (0.45 * Math.sin(rad) + 0.55 * (relAngle / 90)) * radiusX;
-      const y = Math.cos(rad) * radiusY_vertical;
-      const z = Math.cos(rad) * radiusZ;
+      // Kesintisiz 3D dairesel koordinatlar (Tam 360 derece döner!)
+      const x = Math.sin(rad) * radiusX;
+      const y = cosVal * radiusY_vertical;
+      const z = cosVal * radiusZ;
       
-      // Pürüzsüz GPU Scale
-      const scaleFactor = 1.38;
-      const minScale = 0.86;
-      
-      let scale = minScale;
-      if (absAngle < 90) {
-        const norm = absAngle / 90;
-        const cosFactor = Math.cos(norm * Math.PI / 2);
-        scale = minScale + (scaleFactor - minScale) * cosFactor;
-      }
+      // Kusursuz Lineer Ölçekleme (Ön taraf 1.38x büyür, arka taraf 0.65x küçülerek arkadan süzülür!)
+      const maxScale = 1.38;
+      const minScale = 0.65;
+      const scale = minScale + (maxScale - minScale) * (cosVal + 1) / 2;
       
       const rotY = relAngle * 0.25; 
       item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
       
+      // Kesintisiz Opaklık (Ön taraf 1.0, arka taraf S logosunun arkasında 0.22 loşluğa bürünür)
+      const maxOpacity = 1.0;
+      const minOpacity = 0.22;
+      const opacity = minOpacity + (maxOpacity - minOpacity) * (cosVal + 1) / 2;
+      item.style.opacity = opacity.toFixed(2);
+      
       // Tek aktif kartı odaklama
       if (i === closestIndex) {
         item.classList.add('active');
-        item.style.opacity = "1";
-        item.style.zIndex = "25000";
+        item.style.zIndex = "25000"; // Odaktaki kart her zaman en üstte!
         item.style.pointerEvents = "auto";
       } else {
         item.classList.remove('active');
         
-        if (absAngle > 100) {
-          item.style.opacity = "0";
-          item.style.pointerEvents = "none";
-        } else {
-          const factor = Math.cos(rad);
-          item.style.opacity = (0.15 + factor * 0.85).toFixed(2);
+        // S logosunun (19000 z-index) önünde veya arkasında olmasına göre kusursuz derinlik sıralaması!
+        const zIndexBase = Math.round(19000 + cosVal * 1000);
+        item.style.zIndex = zIndexBase;
+        
+        // Sadece ön yarımküredeki kartlar tıklanabilir, arkadakiler sadece derinlik katar!
+        if (cosVal >= 0) {
           item.style.pointerEvents = "auto";
+        } else {
+          item.style.pointerEvents = "none";
         }
-        // Kusursuz z-index dizilimi (Asla çakışma olamaz!)
-        item.style.zIndex = Math.round(20000 - absAngle * 10);
       }
     });
   }
