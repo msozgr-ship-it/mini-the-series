@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SiomJourney | Spatial Cinema</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=5.12">
+    <link rel="stylesheet" href="css/style.css?v=5.13">
 </head>
 <body>
     <div class="bg-spatial"></div>
@@ -34,54 +34,77 @@
         <section class="hero-spatial" id="hero-drag-area">
             <div class="orbital-wrapper">
                 <div class="giant-s-neon">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="sGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-                                <stop offset="45%" stop-color="var(--accent)"/>
-                                <stop offset="100%" stop-color="#4a0005"/>
+                            <!-- Neon Accent Gradient -->
+                            <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff0f23" />
+                                <stop offset="40%" stop-color="#ff4d5a" />
+                                <stop offset="60%" stop-color="#ff8591" />
+                                <stop offset="100%" stop-color="#ff0f23" />
                             </linearGradient>
-                            <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-                                <feGaussianBlur stdDeviation="5" result="blur"/>
+                            <!-- Dark Metallic Support Gradient (3D Hissiyatı katan gövde rengi) -->
+                            <linearGradient id="metalGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#121216" />
+                                <stop offset="100%" stop-color="#2a2a35" />
+                            </linearGradient>
+                            <!-- Cinematic Glow Filter -->
+                            <filter id="spatialGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                <feGaussianBlur stdDeviation="8" result="blur1" />
+                                <feGaussianBlur stdDeviation="3" result="blur2" />
                                 <feMerge>
-                                    <feMergeNode in="blur"/>
-                                    <feMergeNode in="SourceGraphic"/>
+                                    <feMergeNode in="blur1" />
+                                    <feMergeNode in="blur2" />
+                                    <feMergeNode in="SourceGraphic" />
                                 </feMerge>
                             </filter>
                         </defs>
-                        <!-- Uzamsal Sinematik Odak Çizgileri (Professional Lens Crosshairs) -->
-                        <line x1="50" y1="2" x2="50" y2="8" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
-                        <line x1="50" y1="92" x2="50" y2="98" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
-                        <line x1="2" y1="50" x2="8" y2="50" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
-                        <line x1="92" y1="50" x2="98" y2="50" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
 
-                        <!-- İki Adet Dairesel Yörünge Halkası -->
-                        <circle cx="50" cy="50" r="43" stroke="rgba(255, 15, 35, 0.22)" stroke-width="0.8" stroke-dasharray="4 3" />
-                        <circle cx="50" cy="50" r="37" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1" />
+                        <!-- High-Tech Camera Focus Grid & Orbital Rings -->
+                        <circle cx="60" cy="60" r="54" stroke="rgba(255, 15, 35, 0.06)" stroke-width="1" stroke-dasharray="2 4" />
+                        <circle cx="60" cy="60" r="48" stroke="rgba(255, 255, 255, 0.02)" stroke-width="0.75" />
+                        
+                        <!-- Diagonal Crosshair Lines -->
+                        <line x1="60" y1="15" x2="60" y2="105" stroke="rgba(255, 255, 255, 0.02)" stroke-width="0.5" />
+                        <line x1="15" y1="60" x2="105" y2="60" stroke="rgba(255, 255, 255, 0.02)" stroke-width="0.5" />
 
-                        <!-- Matematiksel Olarak Kusursuz Simetrik Geometrik S-Ribbon -->
-                        <path d="M 72 26 
-                                 C 72 12, 28 12, 28 34 
-                                 C 28 57, 72 53, 72 74 
-                                 C 72 88, 28 88, 28 74" 
-                              stroke="url(#sGrad)" 
-                              stroke-width="7.5" 
+                        <!-- Sleek Solid Metallic Dark Base Ribbon (3D Derinlik Katan Arka Gövde) -->
+                        <path d="M 85 36 
+                                 C 85 20, 35 20, 35 44 
+                                 C 35 68, 85 64, 85 88 
+                                 C 85 104, 35 104, 35 88" 
+                              stroke="url(#metalGrad)" 
+                              stroke-width="12" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round" />
+
+                        <!-- Glowing Neon Active S-Ribbon (Metalin üzerindeki parlayan neon şerit) -->
+                        <path d="M 85 36 
+                                 C 85 20, 35 20, 35 44 
+                                 C 35 68, 85 64, 85 88 
+                                 C 85 104, 35 104, 35 88" 
+                              stroke="url(#neonGrad)" 
+                              stroke-width="7" 
                               stroke-linecap="round" 
                               stroke-linejoin="round"
-                              filter="url(#glow)"/>
+                              filter="url(#spatialGlow)" />
 
-                        <!-- 3D Specular Işık Hattı (Elmas Parlaklığı) -->
-                        <path d="M 72 26 
-                                 C 72 12, 28 12, 28 34 
-                                 C 28 57, 72 53, 72 74 
-                                 C 72 88, 28 88, 28 74" 
+                        <!-- Specular Diamond Core Light Line (Çarpıcı elmas keskinliğinde ışık yansıması) -->
+                        <path d="M 85 36 
+                                 C 85 20, 35 20, 35 44 
+                                 C 35 68, 85 64, 85 88" 
                               stroke="#ffffff" 
                               stroke-width="1.2" 
                               stroke-linecap="round" 
                               stroke-linejoin="round" 
-                              opacity="0.8" />
+                              opacity="0.85" />
+                              
+                        <!-- High-Tech Glowing Core Nodes (Uçlardaki parlayan lazer ledler) -->
+                        <circle cx="85" cy="36" r="2" fill="#ffffff" filter="url(#spatialGlow)" />
+                        <circle cx="35" cy="88" r="2" fill="#ffffff" filter="url(#spatialGlow)" />
                     </svg>
                 </div>
+
 
                 <div class="orbital-belt" id="orbital-container"></div>
             </div>
@@ -137,7 +160,7 @@
         </div>
     </div>
 
-    <script src="js/data.js?v=5.12"></script>
-    <script src="js/app.js?v=5.12"></script>
+    <script src="js/data.js?v=5.13"></script>
+    <script src="js/app.js?v=5.13"></script>
 </body>
 </html>

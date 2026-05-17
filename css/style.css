@@ -176,7 +176,8 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.55; user-select: none; z-index: 19000;
+    opacity: 0.38; user-select: none; z-index: 1;
+
 
     animation: sAfilli 8s infinite ease-in-out;
 }
@@ -425,6 +426,15 @@ body::after {
     transform: translate3d(7px, -7px, -15px) rotateZ(-4deg);
     opacity: 0.95;
 }
+
+/* Dönme dolaptaki (carousel) seri afişlerinin arkasındaki gölge kartları iptal ediyoruz,
+   böylece hepsi jilet gibi eşit, hizalı ve 3D derinlik hatasız döner! */
+.cf-item.collection-stack::before,
+.cf-item.collection-stack::after {
+    display: none !important;
+    content: none !important;
+}
+
 
 .modal-close {
     position: absolute; top: 30px; right: 30px;
