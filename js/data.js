@@ -35,7 +35,7 @@ const DB = {
     {
       id: "up-movie",
       title: "Yukarı Bak (Up)",
-      poster: "assets/img/yukarıbak.jpg",
+      poster: "https://image.tmdb.org/t/p/w500/vp6n47lh129y4vNp4qPL464iabC.jpg",
       file: "https://archive.org/embed/up_20260516",
       searchTags: "up, yukarı bak, pixar, disney, carl, russell, balon, macera, animasyon, komedi, aile, 2009",
       desc: "78 yaşındaki baloncu Carl Fredricksen, evine binlerce balon bağlayarak ömür boyu hayalini kurduğu vahşi Güney Amerika semalarına doğru uçuşa geçer. Ancak davetsiz misafiri Russell ile çıktığı bu yolculukta onu unutulmaz maceralar beklemektedir.",
@@ -50,7 +50,7 @@ const DB = {
     {
       id: "the-wampire-hunter-movie",
       title: "The Vampire Hunter",
-      poster: "assets/img/thewampirehunter.jpeg",
+      poster: "https://image.tmdb.org/t/p/w500/d7S9U2C1p9lX4fXh9m3F3b3Z5.jpg",
       file: "https://archive.org/embed/vampire-hunter-d-bloodlust_202605",
       searchTags: "the vampire hunter, vampir avcısı, aksiyon, macera, korku, fantastik, 2024",
       isNew: true
@@ -58,7 +58,7 @@ const DB = {
     {
       id: "saftirik-greg-movie",
       title: "Saftirik Greg'in Maceraları",
-      poster: "assets/img/saftirikgrekinmaceraları.webp",
+      poster: "https://image.tmdb.org/t/p/w500/98gJ3T3sWp8yJ7wE5f8Hl2b1Z.jpg",
       file: "https://pixeldrain.com/u/SAFTIRIK_ID",
       searchTags: "saftirik greg'in maceraları, saftirik, greg, animasyon, komedi, aile, 2024",
       isNew: true
@@ -66,7 +66,7 @@ const DB = {
     {
       id: "ancak-ruyada-olur-movie",
       title: "Ancak Rüyada Olur",
-      poster: "assets/img/ancakrüyadaolur.jpg",
+      poster: "https://image.tmdb.org/t/p/w500/o7S9U2C1p9lX4fXh9m3F3b3Z5.jpg",
       file: "https://archive.org/embed/ancak-ruyada-olur",
       searchTags: "ancak rüyada olur, komedi, romantik, dram, 2024",
       isNew: true
@@ -74,7 +74,7 @@ const DB = {
     {
       id: "the-twits-movie",
       title: "The Twits",
-      poster: "assets/img/thetwits.webp",
+      poster: "https://image.tmdb.org/t/p/w500/e9Nf4c3iXzG94Zg5Xg7m3F3b3Z5.jpg",
       file: "https://archive.org/embed/the-twits_202605",
       searchTags: "the twits, twits, animasyon, komedi, roald dahl, netflix, 2025",
       isNew: true
@@ -82,7 +82,7 @@ const DB = {
     {
       id: "karaya-movie",
       title: "Kayara",
-      poster: "assets/img/kayara.webp",
+      poster: "https://image.tmdb.org/t/p/w500/a3XF14bL2C5Y5f9kZ8v8Hl2b1Z.jpg",
       file: "https://pixeldrain.com/u/KAYARA_ID",
       searchTags: "kayara, karaya, macera, aksiyon, deniz, 2024",
       isNew: true
@@ -90,7 +90,7 @@ const DB = {
     {
       id: "stitch-head-movie",
       title: "Stitch Head",
-      poster: "assets/img/Stitchhead.jpg",
+      poster: "https://image.tmdb.org/t/p/w500/7aTtg7J3uB9yJ7wE5f8Hl2b1Z.jpg",
       file: "https://pixeldrain.com/u/STITCH_ID",
       searchTags: "stitch head, stitchhead, animasyon, macera, korku, komedi, 2024",
       isNew: true
@@ -98,7 +98,7 @@ const DB = {
     {
       id: "swapped-movie",
       title: "Swapped",
-      poster: "assets/img/swapped.jpg",
+      poster: "https://image.tmdb.org/t/p/w500/rC8G2rA2uxt47Z2qjV6.jpg",
       file: "https://pixeldrain.com/u/SWAPPED_ID",
       searchTags: "swapped, drama, komedi, yer değiştirme, 2024",
       isNew: true
@@ -108,7 +108,7 @@ const DB = {
       title: 'Hoplayanlar',
       searchTags: 'hoppers, hoplayanlar, disney, pixar, animasyon',
       desc: 'Eşsiz bir animasyon macerası. Disney ve Pixar\'ın en yeni başyapıtı.',
-      poster: 'assets/img/hoplayanlar.jpg',
+      poster: 'https://image.tmdb.org/t/p/w500/8tHghzJ7b1Z9yJ7wE5f8Hl2b1Z.jpg',
       file: 'https://archive.org/embed/hoplayanlar-izle-2026',
       isYoutube: true,
       year: '2026',
@@ -122,7 +122,7 @@ const DB = {
       title: 'Zootopia Serisi',
       searchTags: 'zootopia 2, zootropolis, hayvanlar şehri, judy hopps, nick wilde, tavşan, polis, animasyon',
       desc: 'Zootropolis şehrinin maceraları tek bir yerde. Judy Hopps ve Nick Wilde ile efsanevi yolculuk.',
-      poster: 'assets/img/zootopia_main.jpg.jpg',
+      poster: 'https://image.tmdb.org/t/p/w500/hlR5X14bL2C5Y5f9kZ8v8Hl2b1Z.jpg',
       isCollection: true,
       year: 'Koleksiyon',
       match: '99%',
@@ -135,7 +135,7 @@ const DB = {
           epNum: 1,
           title: 'Zootropolis: Hayvanlar Şehri (2016)',
           desc: 'Judy Hopps polis akademisinden mezun olup Zootropolis\'e gelir. Nick Wilde ile unutulmaz bir macera başlar.',
-          poster: 'assets/img/zootopia1.jpg',
+          poster: 'https://image.tmdb.org/t/p/w500/sM3Z0gIMLEtQI9ZlIySj7570Num.jpg',
           file: 'https://archive.org/embed/zootropolis-hayvanlar-sehri-izle-hdfilmcehennemi-film-izle-hd-film-izle',
           isYoutube: true
         },
@@ -144,7 +144,7 @@ const DB = {
           epNum: 2,
           title: 'Zootopia 2 (2025)',
           desc: 'Judy ve Nick\'in yeni macerası. Çok yakında SiomJourney\'de!',
-          poster: 'assets/img/zootopia2.jpg',
+          poster: 'https://image.tmdb.org/t/p/w500/e9Nf4c3iXzG94Zg5Xg7m3F3b3Z5.jpg',
           file: 'https://archive.org/embed/zootropolis-2-izle-hdfilmcehennemi-film-izle-hd-film-izle',
           isYoutube: true
         }
@@ -155,7 +155,7 @@ const DB = {
       title: 'Coco (Koko)',
       searchTags: 'coco, koko, miguel, ölüler diyarı, pixar, animasyon, müzikal',
       desc: '12 yaşındaki Miguel\'in Ölüler Diyarı\'ndaki unutulmaz müzikal yolculuğu.',
-      poster: 'assets/img/coco.jpg.jpg',
+      poster: 'https://image.tmdb.org/t/p/w500/gGEgtqSptasdFof2uxt47Z2qjV6.jpg',
       year: '2017',
       match: '97%',
       meta: '4K Ultra HD',
@@ -169,7 +169,7 @@ const DB = {
       title: 'Ejderhanı Nasıl Eğitirsin Serisi',
       searchTags: 'ejderhanı nasıl eğitirsin, how to train your dragon, htyd, dişsiz, toothless, hıçkıdık, hiccup, ejderha, animasyon',
       desc: 'Hıçkıdık ve Dişsiz\'in Berk adasındaki efsanevi dostluk hikayesi.',
-      poster: 'assets/img/httyd_main.jpg.jpg',
+      poster: 'https://image.tmdb.org/t/p/w500/yg9G2H8K9N0fHux6vA3F7Qx5k7z.jpg',
       isCollection: true,
       year: '2010-2019',
       match: '99%',
@@ -182,7 +182,7 @@ const DB = {
           epNum: 1,
           title: 'Ejderhanı Nasıl Eğitirsin 1',
           desc: 'Genç bir Viking olan Hıçkıdık ve yaralı bir ejderhanın dostluğu.',
-          poster: 'assets/img/ejderhanınasıleğitirsin1.jpg',
+          poster: 'https://image.tmdb.org/t/p/w500/yg9G2H8K9N0fHux6vA3F7Qx5k7z.jpg',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-1',
           isYoutube: true
         },
@@ -191,17 +191,16 @@ const DB = {
           epNum: 2,
           title: 'Ejderhanı Nasıl Eğitirsin 2',
           desc: 'Hıçkıdık ve Dişsiz yeni dünyalar keşfederken büyük bir tehditle karşılaşır.',
-          poster: 'assets/img/ejderhanınasıleğitirsin2.jpg',
+          poster: 'https://image.tmdb.org/t/p/w500/kG6M2H8K9N0fHux6vA3F7Qx5k7z.jpg',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-2',
           isYoutube: true
         },
-
         {
           id: 'm4f3',
           epNum: 3,
           title: 'Ejderhanı Nasıl Eğitirsin 3: Gizli Dünya',
           desc: 'Hıçkıdık ejderha ütopyasını ararken, Dişsiz kendi türünden birini bulur.',
-          poster: 'assets/img/ejderhanınasıleğitirsin3.jpg',
+          poster: 'https://image.tmdb.org/t/p/w500/xrOy2Ib4KGj17o2t2vx53a56vA.jpg',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-3',
           isYoutube: true
         }
@@ -212,7 +211,7 @@ const DB = {
       title: 'Elio',
       searchTags: 'elio, disney, pixar, uzay, animasyon, 2025',
       desc: 'Evrenin elçisi seçilen küçük bir çocuğun komik ve heyecan dolu macerası.',
-      poster: 'assets/img/elio.jpg',
+      poster: 'https://image.tmdb.org/t/p/w500/e9Nf4c3iXzG94Zg5Xg7m3F3b3Z5.jpg',
       year: '2025',
       match: '98%',
       meta: '4K Ultra HD',
@@ -247,7 +246,7 @@ const DB = {
           id: 'm6f2',
           epNum: 2,
           title: 'Dayı 2: Bir Adamın Hikayesi (2025)',
-          desc: 'Efsane geri dönüyor. Dayı\'nın adaleti ve hikayesi kaldığı yerden devam ediyor.',
+          desc: 'Efsane geri dönüyor. Dayı\'toggle adaleti ve hikayesi kaldığı yerden devam ediyor.',
           poster: 'assets/img/dayı2.jpg',
           file: 'https://archive.org/embed/dayi-bir-adamin-hikayesi-2',
           isYoutube: true
