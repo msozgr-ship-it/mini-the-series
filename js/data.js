@@ -60,7 +60,7 @@ const DB = {
       id: "saftirik-greg-movie",
       title: "Saftirik Greg'in Maceraları",
       poster: "assets/img/saftirikgrekinmaceraları.webp",
-      file: "https://pixeldrain.com/u/SAFTIRIK_ID",
+      file: "https://www.dailymotion.com/embed/video/k5Oh2Kybe4itMzG4JyC?autoplay=1&queue-enable=false&queue-autoplay-next=false",
       trailer: "https://youtu.be/zb4cQROwt74?si=FKBm5lckBWgB89Ps",
       searchTags: "saftirik greg'in maceraları, saftirik, greg, animasyon, komedi, aile, 2024",
       isNew: true
