@@ -240,12 +240,16 @@ function updateBackgroundVideo(item) {
   clearTimeout(bgVideoTimeout);
   bgVideoTimeout = setTimeout(() => {
     let videoHtml = '';
-    // Eğer filme özel bir fragman tanımlanmışsa onu kullan, yoksa filmin kendisini kullan
-    const sourceUrl = item.trailer || item.file;
-    const isTrailer = !!item.trailer;
+    // YALNIZCA FRAGMANI OLAN FİLMLER ARKA PLANDA OYNATILSIN
+    const sourceUrl = item.trailer;
+    
+    if (!sourceUrl) {
+      bgContainer.innerHTML = ''; // Fragman yoksa arka planı temizle
+      return;
+    }
 
-    // Sadece eğer ana filmi oynatıyorsak rastgele bir orta nokta seç (fragmanlar hep baştan başlar!)
-    const midPoint = isTrailer ? 0 : (Math.floor(Math.random() * 1800) + 1200); 
+    // Fragmanlar hep baştan başlar (0:00)
+    const midPoint = 0; 
 
     if (sourceUrl) {
       if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
