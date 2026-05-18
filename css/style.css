@@ -864,7 +864,7 @@ body::after {
     pointer-events: none;
 }
 .hero-video-bg.active {
-    opacity: 0.38; /* Çok daha belirgin ve canlı sinematik atmosfer */
+    opacity: 0.65; /* Çok daha belirgin, net ve canlı sinematik şölen */
 }
 .hero-video-bg iframe, .hero-video-bg video {
     position: absolute;
@@ -875,14 +875,14 @@ body::after {
     min-height: 100vh;
     min-width: 177.77vh; /* 16:9 ratio */
     transform: translate(-50%, -50%) scale(1.1); /* Siyah kenarları kesmek için hafifçe büyüt */
-    filter: blur(4px) brightness(0.78) contrast(1.05); /* Yumuşatılmış pürüzsüz netlik */
+    filter: blur(0.5px) brightness(0.85) contrast(1.05); /* Kristal netliğinde ve akıcı sahneler */
     border: none;
     pointer-events: none;
 }
 
 
+
 /* TAM EKRAN TRANSFORMATION ENGELEYİCİ - TARAYICININ TAM EKRANDA SIĞINAK YAPMASINI ENGELLER */
 .player-modal.active .player-canvas { 
     transform: none !important; 
-}
 

@@ -494,8 +494,25 @@ function handleSuggestionClick(id) {
     resultsPanel.classList.remove('active');
     setTimeout(() => resultsPanel.style.display = 'none', 300);
   }
-  handleItemClick(id);
+  
+  const item = findItemDeep(id);
+  if (!item) return;
+
+  // Arama sonucundan gelen tıklamalarda HER ZAMAN doğrudan oynatıcıyı aç!
+  if (item.episodes && item.episodes.length > 0) {
+    // Seri ise: İlk bölümü doğrudan oynat!
+    const firstEp = item.episodes[0];
+    openPlayer(firstEp.file, firstEp.title, firstEp.poster || item.poster);
+  } else if (item.collection && item.collection.length > 0) {
+    // Koleksiyon ise: İlk filmi doğrudan oynat!
+    const firstMovie = item.collection[0];
+    openPlayer(firstMovie.file, firstMovie.title, firstMovie.poster || item.poster);
+  } else {
+    // Tekil film veya alt film ise: Doğrudan oynat!
+    openPlayer(item.file, item.title, item.poster);
+  }
 }
+
 
 
 function clearSearchInput(event) {
@@ -581,9 +598,29 @@ function openPlayer(file, title, poster) {
     container.innerHTML += `
       <video id="player-video" src="${finalUrl}" controls autoplay playsinline style="width:100%; height:100%; object-fit:contain; border:none; display:block; outline:none; background:#000;"></video>
     `;
+    
     // Doğrudan video akışı olduğu için Archive.org logosu bulunmaz, maskeleyicileri gizleyebiliriz!
     const blocker = document.getElementById('logo-blocker');
     if (blocker) blocker.style.display = 'none';
+
+    // AKILLI HATA TOLERANS LİSENER'I: Eğer doğrudan MP4 bağlantısı 404/hata verirse, anında ve hissettirmeden güvenli iframe oynatıcısına geri döner!
+    const videoEl = document.getElementById('player-video');
+    if (videoEl) {
+      videoEl.addEventListener('error', () => {
+        console.warn("Doğrudan MP4 akışı başarısız oldu, iframe oynatıcısına geçiş yapılıyor.");
+        // Iframe oynatıcısına geri dön (yedek plan)
+        let iframeUrl = file;
+        if (file.includes('archive.org/embed/')) {
+          iframeUrl = file + (file.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+        container.innerHTML = `
+          <div class="player-logo-blocker" id="logo-blocker">
+            <span class="blocker-dot"></span>
+          </div>
+          <iframe id="player-frame" src="${iframeUrl}" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" style="width:100%; height:100%; border:none; display:block;"></iframe>
+        `;
+      });
+    }
   } else {
     // YouTube / Pixeldrain vb. için iframe oynatıcısı (varsayılan yedek)
     if (file.includes('pixeldrain.com/u/')) {
