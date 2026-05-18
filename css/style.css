@@ -864,7 +864,7 @@ body::after {
     pointer-events: none;
 }
 .hero-video-bg.active {
-    opacity: 0.16; /* Çok şık ve gözü yormayan hafif hareketli ışık */
+    opacity: 0.38; /* Çok daha belirgin ve canlı sinematik atmosfer */
 }
 .hero-video-bg iframe, .hero-video-bg video {
     position: absolute;
@@ -875,10 +875,11 @@ body::after {
     min-height: 100vh;
     min-width: 177.77vh; /* 16:9 ratio */
     transform: translate(-50%, -50%) scale(1.1); /* Siyah kenarları kesmek için hafifçe büyüt */
-    filter: blur(15px) brightness(0.65) contrast(1.1); /* Uzamsal Rüya Halesi */
+    filter: blur(4px) brightness(0.78) contrast(1.05); /* Yumuşatılmış pürüzsüz netlik */
     border: none;
     pointer-events: none;
 }
+
 
 /* TAM EKRAN TRANSFORMATION ENGELEYİCİ - TARAYICININ TAM EKRANDA SIĞINAK YAPMASINI ENGELLER */
 .player-modal.active .player-canvas { 
