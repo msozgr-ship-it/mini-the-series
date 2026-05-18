@@ -37,6 +37,7 @@ const DB = {
       title: "Yukarı Bak (Up)",
       poster: "assets/img/yukarıbak.jpg",
       file: "https://archive.org/embed/up_20260516",
+      trailer: "https://youtu.be/ZE_V0g9q4g0?si=IwEnsFF0PaQCODhA&start=10",
       searchTags: "up, yukarı bak, pixar, disney, carl, russell, balon, macera, animasyon, komedi, aile, 2009",
       desc: "78 yaşındaki baloncu Carl Fredricksen, evine binlerce balon bağlayarak ömür boyu hayalini kurduğu vahşi Güney Amerika semalarına doğru uçuşa geçer. Ancak davetsiz misafiri Russell ile çıktığı bu yolculukta onu unutulmaz maceralar beklemektedir.",
       year: "2009",
@@ -70,7 +71,8 @@ const DB = {
       title: "Ancak Rüyada Olur",
       poster: "assets/img/ancakrüyadaolur.jpg",
       file: "https://archive.org/embed/ancak-ruyada-olur",
-      searchTags: "ancak rüyada olur, komedi, romantik, dram, 2024",
+      trailer: "https://youtu.be/asNkphBvqcY?si=2YO14cSkYg6pDDEz&start=10",
+      searchTags: "ancak rüyada olur, rüyalar diyarında, in your dreams, komedi, romantik, dram, 2024",
       isNew: true
     },
     {
@@ -78,7 +80,8 @@ const DB = {
       title: "The Twits",
       poster: "assets/img/thetwits.webp",
       file: "https://archive.org/embed/the-twits_202605",
-      searchTags: "the twits, twits, animasyon, komedi, roald dahl, netflix, 2025",
+      trailer: "https://youtu.be/dMZI0FkYLEs?si=8OcFu3bK3gh-5qKg&start=10",
+      searchTags: "the twits, twits, belalılar, animasyon, komedi, roald dahl, netflix, 2025",
       isNew: true
     },
     {
@@ -86,6 +89,7 @@ const DB = {
       title: "Kayara",
       poster: "assets/img/kayara.webp",
       file: "https://www.dailymotion.com/embed/video/k6KRWrhctyV9mmG4D0c?autoplay=1&queue-enable=false&queue-autoplay-next=false",
+      trailer: "https://youtu.be/wirJG-bMAuc?si=MHUhMZyp8yf1RCnJ&start=10",
       searchTags: "kayara, karaya, macera, aksiyon, deniz, 2024",
       isNew: true
     },
@@ -94,7 +98,8 @@ const DB = {
       title: "Stitch Head",
       poster: "assets/img/Stitchhead.jpg",
       file: "https://www.dailymotion.com/embed/video/k3xfwFMvJ1FAKaG4D2Y?autoplay=1&queue-enable=false&queue-autoplay-next=false",
-      searchTags: "stitch head, stitchhead, animasyon, macera, korku, komedi, 2024",
+      trailer: "https://youtu.be/iuBqezw7eOM?si=Guz6ic9GhamxKpTV&start=10",
+      searchTags: "stitch head, stitchhead, canavarcıklar, animasyon, macera, korku, komedi, 2024",
       isNew: true
     },
     {
@@ -127,6 +132,7 @@ const DB = {
       searchTags: 'zootopia 2, zootropolis, hayvanlar şehri, judy hopps, nick wilde, tavşan, polis, animasyon',
       desc: 'Zootropolis şehrinin maceraları tek bir yerde. Judy Hopps ve Nick Wilde ile efsanevi yolculuk.',
       poster: 'assets/img/zootopia_main.jpg.jpg',
+      trailer: 'https://youtu.be/d4Ulh142Gx4?si=2dy8xjPm6ctNCwhh&start=10',
       isCollection: true,
       year: 'Koleksiyon',
       match: '99%',
@@ -140,6 +146,7 @@ const DB = {
           title: 'Zootropolis: Hayvanlar Şehri (2016)',
           desc: 'Judy Hopps polis akademisinden mezun olup Zootropolis\'e gelir. Nick Wilde ile unutulmaz bir macera başlar.',
           poster: 'assets/img/zootopia1.jpg',
+          trailer: 'https://youtu.be/d4Ulh142Gx4?si=2dy8xjPm6ctNCwhh&start=10',
           file: 'https://archive.org/embed/zootropolis-hayvanlar-sehri-izle-hdfilmcehennemi-film-izle-hd-film-izle',
           isYoutube: true
         },
@@ -149,6 +156,7 @@ const DB = {
           title: 'Zootopia 2 (2025)',
           desc: 'Judy ve Nick\'in yeni macerası. Çok yakında SiomJourney\'de!',
           poster: 'assets/img/zootopia2.jpg',
+          trailer: 'https://youtu.be/0I3PcUcREkQ?si=l3Mm5kVjqyFQM4gV&start=10',
           file: 'https://archive.org/embed/zootropolis-2-izle-hdfilmcehennemi-film-izle-hd-film-izle',
           isYoutube: true
         }
@@ -175,6 +183,7 @@ const DB = {
       searchTags: 'ejderhanı nasıl eğitirsin, how to train your dragon, htyd, dişsiz, toothless, hıçkıdık, hiccup, ejderha, animasyon',
       desc: 'Hıçkıdık ve Dişsiz\'in Berk adasındaki efsanevi dostluk hikayesi.',
       poster: 'assets/img/httyd_main.jpg.jpg',
+      trailer: 'https://youtu.be/E73btLlzXmA?si=k7WF5AZC0SNC3Sok&start=10',
       isCollection: true,
       year: '2010-2019',
       match: '99%',
@@ -188,6 +197,7 @@ const DB = {
           title: 'Ejderhanı Nasıl Eğitirsin 1',
           desc: 'Genç bir Viking olan Hıçkıdık ve yaralı bir ejderhanın dostluğu.',
           poster: 'assets/img/ejderhanınasıleğitirsin1.jpg',
+          trailer: 'https://youtu.be/E73btLlzXmA?si=k7WF5AZC0SNC3Sok&start=10',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-1',
           isYoutube: true
         },
@@ -197,6 +207,7 @@ const DB = {
           title: 'Ejderhanı Nasıl Eğitirsin 2',
           desc: 'Hıçkıdık ve Dişsiz yeni dünyalar keşfederken büyük bir tehditle karşılaşır.',
           poster: 'assets/img/ejderhanınasıleğitirsin2.jpg',
+          trailer: 'https://youtu.be/ev8huwbabX4?si=7JRKNozVL9CxMTnx&start=10',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-2',
           isYoutube: true
         },
@@ -206,6 +217,7 @@ const DB = {
           title: 'Ejderhanı Nasıl Eğitirsin 3: Gizli Dünya',
           desc: 'Hıçkıdık ejderha ütopyasını ararken, Dişsiz kendi türünden birini bulur.',
           poster: 'assets/img/ejderhanınasıleğitirsin3.jpg',
+          trailer: 'https://youtu.be/EHu-WpiaNHw?si=T_BRR2hxfqnb7bHn&start=10',
           file: 'https://archive.org/embed/ejderhani-nasil-egitirsin-3',
           isYoutube: true
         }
@@ -232,6 +244,7 @@ const DB = {
       searchTags: 'dayı serisi, dayi, dayı 1, dayı 2, ufuk bayraktar, aksiyon, dram, türk filmi, koleksiyon',
       desc: 'Dayı\'nın adalet mücadelesi ve efsanevi hikayesi tek bir koleksiyonda. Ufuk Bayraktar\'ın başrolünde yer aldığı aksiyon dolu yapımlar.',
       poster: 'assets/img/dayımain.jpg',
+      trailer: 'https://youtu.be/kLLQNtSfFZc?si=CnkE2IQvc7plRvAb&start=10',
       isCollection: true,
       year: 'Koleksiyon',
       match: '99%',
@@ -245,6 +258,7 @@ const DB = {
           title: 'Dayı: Bir Adamın Hikayesi (2021)',
           desc: 'Adil ve cesur bir adam olan Cevahir\'in, İstanbul sokaklarında adaleti arama ve kabadayılık dünyasına adım atış hikayesi.',
           poster: 'assets/img/dayı1.jpg',
+          trailer: 'https://youtu.be/kLLQNtSfFZc?si=CnkE2IQvc7plRvAb&start=10',
           file: 'https://archive.org/embed/dayi-bir-adamin-hikayesi',
           isYoutube: true
         },
@@ -254,6 +268,7 @@ const DB = {
           title: 'Dayı 2: Bir Adamın Hikayesi (2025)',
           desc: 'Efsane geri dönüyor. Dayı\'nın adaleti ve hikayesi kaldığı yerden devam ediyor.',
           poster: 'assets/img/dayı2.jpg',
+          trailer: 'https://youtu.be/eYrHzCRMCfo?si=htS_UnKcJI4oVu9Y&start=10',
           file: 'https://archive.org/embed/dayi-bir-adamin-hikayesi-2',
           isYoutube: true
         }
