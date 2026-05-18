@@ -49,16 +49,16 @@ body::after {
     opacity: 1; /* Tam parlaklık ve netlik */
 }
 .hero-video-bg iframe, .hero-video-bg video {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 oranı */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 oranı */
+    transform: translate(-50%, -50%) scale(1.1); /* Siyah barları ve logoları kesmek için hafif büyütme */
     pointer-events: none;
     border: none;
-    object-fit: cover;
     filter: brightness(1) saturate(1.1) contrast(1.05); /* HD, Parlak ve Keskin */
 }
 
@@ -890,34 +890,8 @@ body::after {
 }
 
 /* CINEMATIC BACKDROP VIDEO DYNAMIC GLOW (Dönme Dolap Arkası Hareketli Kesitler) */
-.hero-video-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -3; /* S logosunun da arkasında kalır! */
-    opacity: 0;
-    transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-    overflow: hidden;
-    pointer-events: none;
-}
-.hero-video-bg.active {
-    opacity: 0.65; /* Çok daha belirgin, net ve canlı sinematik şölen */
-}
-.hero-video-bg iframe, .hero-video-bg video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    transform: none; /* Kırpma ve taşmayı önler */
-    filter: brightness(1) saturate(1.1) contrast(1.05); /* HD, Parlak ve Keskin */
-    border: none;
-    pointer-events: none;
-    object-fit: cover;
-}
+/* Bottom duplicate container rules removed to prevent conflicts */
+/* Bottom duplicate rule removed to prevent conflicts */
 
 
 
