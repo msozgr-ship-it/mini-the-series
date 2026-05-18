@@ -240,28 +240,38 @@ function updateBackgroundVideo(item) {
   clearTimeout(bgVideoTimeout);
   bgVideoTimeout = setTimeout(() => {
     let videoHtml = '';
-    const file = item.file;
+    // Eğer filme özel bir fragman tanımlanmışsa onu kullan, yoksa filmin kendisini kullan
+    const sourceUrl = item.trailer || item.file;
+    const isTrailer = !!item.trailer;
 
-    // Filmlerin başlangıç/bitiş jeneriklerini atlamak için 20. dk (1200s) ile 50. dk (3000s) arasında rastgele bir orta saniye seç!
-    const midPoint = Math.floor(Math.random() * 1800) + 1200; 
+    // Sadece eğer ana filmi oynatıyorsak rastgele bir orta nokta seç (fragmanlar hep baştan başlar!)
+    const midPoint = isTrailer ? 0 : (Math.floor(Math.random() * 1800) + 1200); 
 
-    if (file) {
-      if (file.includes('youtube.com') || file.includes('youtu.be')) {
+    if (sourceUrl) {
+      if (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be')) {
         let ytId = '';
-        if (file.includes('embed/')) ytId = file.split('embed/')[1]?.split('?')[0];
-        else ytId = file.split('v=')[1]?.split('&')[0];
-        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3&start=${midPoint}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
-      } else if (file.includes('archive.org')) {
-        // archive.org embed linkini al, sessiz, autoplay ve orta noktadan başlama parametrelerini ekle
-        const embedUrl = file.replace('/details/', '/embed/');
-        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1&start=${midPoint}" allow="autoplay; fullscreen" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
-      } else if (file.endsWith('.mp4') || file.includes('.mp4?')) {
-        // HTML5 Media Fragments (#t=saniye) kullanarak doğrudan MP4'ü ortasından oynat!
-        videoHtml = `<video src="${file}#t=${midPoint}" autoplay muted loop playsinline style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; object-fit:cover; pointer-events: none;"></video>`;
-      } else if (file.includes('dailymotion.com')) {
-        let dmId = file.split('video/')[1]?.split('?')[0]?.split('&')[0];
+        if (sourceUrl.includes('embed/')) ytId = sourceUrl.split('embed/')[1]?.split('?')[0];
+        else ytId = sourceUrl.split('v=')[1]?.split('&')[0] || sourceUrl.split('youtu.be/')[1]?.split('?')[0];
+        
+        // Fragmansa baştan başlatır, filmse ortadan!
+        let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
+        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+      } else if (sourceUrl.includes('archive.org')) {
+        const embedUrl = sourceUrl.replace('/details/', '/embed/');
+        let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
+        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1${startParam}" allow="autoplay; fullscreen" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+      } else if (sourceUrl.endsWith('.mp4') || sourceUrl.includes('.mp4?')) {
+        let fragParam = midPoint > 0 ? `#t=${midPoint}` : '';
+        videoHtml = `<video src="${sourceUrl}${fragParam}" autoplay muted loop playsinline style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; object-fit:cover; pointer-events: none;"></video>`;
+      } else if (sourceUrl.includes('dailymotion.com') || sourceUrl.includes('dai.ly')) {
+        let dmId = '';
+        if (sourceUrl.includes('video/')) dmId = sourceUrl.split('video/')[1]?.split('?')[0]?.split('&')[0];
+        else if (sourceUrl.includes('dai.ly/')) dmId = sourceUrl.split('dai.ly/')[1]?.split('?')[0];
+        
         if (dmId) {
-          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+          // Dailymotion API'sinde loop parametresi oynatma listesi olmadan düzgün çalışmayabilir, ancak fragmanları başa sarmak için deniyoruz
+          let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
+          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0${startParam}" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
         }
       }
     }
