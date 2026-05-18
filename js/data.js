@@ -83,7 +83,7 @@ const DB = {
       id: "karaya-movie",
       title: "Kayara",
       poster: "assets/img/kayara.webp",
-      file: "https://pixeldrain.com/u/KAYARA_ID",
+      file: "https://www.dailymotion.com/embed/video/k6KRWrhctyV9mmG4D0c?autoplay=1",
       searchTags: "kayara, karaya, macera, aksiyon, deniz, 2024",
       isNew: true
     },
