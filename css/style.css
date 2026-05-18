@@ -898,4 +898,58 @@ body::after {
 /* TAM EKRAN TRANSFORMATION ENGELEYİCİ - TARAYICININ TAM EKRANDA SIĞINAK YAPMASINI ENGELLER */
 .player-modal.active .player-canvas { 
     transform: none !important; 
+}
 
+/* TRAILER TOGGLE BUTTON */
+.trailer-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 50000;
+    background: rgba(3, 3, 5, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.trailer-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-3px);
+}
+.trailer-toggle-btn.off {
+    background: rgba(255, 15, 35, 0.15);
+    border-color: rgba(255, 15, 35, 0.3);
+    color: rgba(255,255,255,0.6);
+}
+.trailer-toggle-btn.off:hover {
+    background: rgba(255, 15, 35, 0.3);
+    color: #fff;
+}
+.trailer-toggle-btn svg {
+    color: var(--accent);
+}
+.trailer-toggle-btn.off svg {
+    color: rgba(255, 255, 255, 0.5);
+}
+@media (max-width: 768px) {
+    .trailer-toggle-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 8px 15px;
+        font-size: 9px;
+    }
+}
