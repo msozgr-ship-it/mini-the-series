@@ -2,7 +2,7 @@ let allContent = [];
 let orbitalContent = [];
 let filteredContent = [];
 let currentRotation = 0;
-let autoRotateSpeed = 0.05; 
+let autoRotateSpeed = 0.003; // İnanılmaz yavaşlatıldı (0.05'ten 0.003'e düştü - 1 fragman bitene kadar ancak 1 kart döner)
 let isDragging = false;
 let startX = 0;
 let startRotation = 0;
@@ -259,7 +259,8 @@ function updateBackgroundVideo(item) {
         
         // Fragmansa baştan başlatır, filmse ortadan!
         let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
-        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+        // vq=hd1080 ile HD zorlandı. transform: scale(1.15) ile YouTube/Dailymotion logoları ve Play tuşları ekran dışına itildi!
+        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none; transform: translate(-50%, -50%) scale(1.25); position: absolute; top: 50%; left: 50%;"></iframe>`;
       } else if (sourceUrl.includes('archive.org')) {
         // ARCHIVE.ORG İÇİN KESİN ÇÖZÜM: iframe yerine doğrudan .mp4 dosyasına çeviriyoruz!
         // Böylece tarayıcılar play butonu çıkarmaz, %100 otomatik (autoplay) sessiz oynatır.
@@ -279,9 +280,9 @@ function updateBackgroundVideo(item) {
         else if (sourceUrl.includes('dai.ly/')) dmId = sourceUrl.split('dai.ly/')[1]?.split('?')[0];
         
         if (dmId) {
-          // Dailymotion API'sinde loop parametresi oynatma listesi olmadan düzgün çalışmayabilir, ancak fragmanları başa sarmak için deniyoruz
+          // HD kalite (quality=1080) ve %125 Zoom ile tüm gereksiz yazılar/logolar yok ediliyor
           let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
-          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0${startParam}" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0&quality=1080&queue-enable=false${startParam}" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none; transform: translate(-50%, -50%) scale(1.25); position: absolute; top: 50%; left: 50%;"></iframe>`;
         }
       }
     }
