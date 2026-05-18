@@ -111,6 +111,7 @@ const DB = {
       searchTags: 'hoppers, hoplayanlar, disney, pixar, animasyon',
       desc: 'Eşsiz bir animasyon macerası. Disney ve Pixar\'ın en yeni başyapıtı.',
       poster: 'assets/img/hoplayanlar.jpg',
+      trailer: 'https://youtu.be/SSE8jaCE6LA?si=f1vsvDbkaQC0si8C',
       file: 'https://archive.org/embed/hoplayanlar-izle-2026',
       isYoutube: true,
       year: '2026',
