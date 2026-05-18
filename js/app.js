@@ -315,7 +315,7 @@ function renderOrbital() {
       <div class="cf-item ${isColl ? 'collection-stack' : ''}" id="orb-${index}" onclick="handleOrbitalClick(${index}, '${item.id}')">
         ${isColl ? '<div class="collection-badge">SERİ</div>' : ''}
         <div class="neon-rim"></div>
-        <img src="${item.poster}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
+        <img src="${encodeURI(item.poster)}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
       </div>
     `;
   }).join('');
@@ -336,7 +336,7 @@ function renderContent() {
       <div class="card-wrapper ${isColl ? 'collection-stack' : ''}" onclick="handleItemClick('${item.id}')">
         <div class="card">
           ${isColl ? '<div class="collection-badge">SERİ</div>' : ''}
-          <img src="${item.poster}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
+          <img src="${encodeURI(item.poster)}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
         </div>
       </div>
     `;
@@ -461,7 +461,7 @@ function setupSearch() {
           const typeText = isColl ? 'Seri' : 'Film';
           return `
             <div class="search-result-item" onclick="handleSuggestionClick('${item.id}')">
-              <img src="${item.poster}" alt="">
+              <img src="${encodeURI(item.poster)}" alt="">
               <div class="search-result-info">
                 <div class="search-result-title">${item.title}</div>
                 <div class="search-result-meta">${item.year || '2024'} • ${typeText} • ${ratingText}</div>
@@ -545,7 +545,7 @@ function openDetails(id) {
   let subItems = item.episodes || item.collection || [];
   grid.innerHTML = subItems.map(sub => `
     <div class="series-item" onclick="event.stopPropagation(); openPlayer('${sub.file}', '${sub.title}', '${sub.poster || item.poster}')">
-      <div class="card"><img src="${sub.poster || item.poster}" alt=""></div>
+      <div class="card"><img src="${encodeURI(sub.poster || item.poster)}" alt=""></div>
       <h3>${sub.title}</h3>
     </div>
   `).join('');
@@ -569,7 +569,7 @@ function openPlayer(file, title, poster) {
   const container = document.querySelector('.player-container');
   
   if (playerTitle) playerTitle.textContent = title || "Sinematik Deneyim";
-  if (playerBackdrop) playerBackdrop.style.backgroundImage = poster ? `url(${poster})` : '';
+  if (playerBackdrop) playerBackdrop.style.backgroundImage = poster ? `url(${encodeURI(poster)})` : '';
   
   // Eski içeriği temizle ve logoyu maskeleyen paneli sıfırla
   container.innerHTML = `
@@ -651,7 +651,7 @@ function openComingSoon(title, poster) {
   const csBackdrop = document.getElementById('cs-backdrop');
   
   csTitle.textContent = title || "Sinematik İçerik";
-  if (poster) csBackdrop.style.backgroundImage = `url(${poster})`;
+  if (poster) csBackdrop.style.backgroundImage = `url(${encodeURI(poster)})`;
   
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
