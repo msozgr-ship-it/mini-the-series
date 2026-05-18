@@ -359,10 +359,36 @@ function renderContent() {
   `;
 }
 
+// DEEP ITEM LOCATOR (Tüm seri bölümlerini ve koleksiyon alt filmlerini de bulur!)
+function findItemDeep(id) {
+  // 1. Üst seviyede ara
+  let found = allContent.find(i => i.id === id);
+  if (found) return found;
+
+  // 2. Koleksiyonların içinde ara
+  for (const item of allContent) {
+    if (item.collection) {
+      const nested = item.collection.find(f => f.id === id);
+      if (nested) return nested;
+    }
+    // 3. Serilerin bölümlerinin içinde ara
+    if (item.episodes) {
+      const nested = item.episodes.find(e => e.id === id);
+      if (nested) return nested;
+    }
+  }
+  return null;
+}
+
 function handleItemClick(id) {
-  const item = allContent.find(i => i.id === id);
-  if (item.episodes || item.isCollection) openDetails(id);
-  else openPlayer(item.file, item.title, item.poster);
+  const item = findItemDeep(id);
+  if (!item) return;
+
+  if (item.episodes || item.isCollection) {
+    openDetails(id);
+  } else {
+    openPlayer(item.file, item.title, item.poster);
+  }
 }
 
 function setupSearch() {
@@ -396,9 +422,30 @@ function setupSearch() {
     );
     renderContent();
 
-    // Spotlight hızlı öneriler panelini render etme
+    // Spotlight hızlı öneriler panelini render etme (Koleksiyon alt filmleri dahil!)
     if (q.length > 0 && resultsPanel) {
-      const matches = allContent.filter(item => 
+      const searchableItems = [];
+      allContent.forEach(item => {
+        searchableItems.push(item);
+        if (item.collection) {
+          item.collection.forEach(sub => {
+            searchableItems.push({
+              ...sub,
+              searchTags: (sub.searchTags || '') + ' ' + (item.searchTags || '')
+            });
+          });
+        }
+        if (item.episodes) {
+          item.episodes.forEach(sub => {
+            searchableItems.push({
+              ...sub,
+              searchTags: (sub.searchTags || '') + ' ' + (item.searchTags || '')
+            });
+          });
+        }
+      });
+
+      const matches = searchableItems.filter(item => 
         (item.title && item.title.toLowerCase().includes(q)) || 
         (item.searchTags && item.searchTags.toLowerCase().includes(q))
       ).slice(0, 5); // En iyi 5 eşleşmeyi al
@@ -449,6 +496,7 @@ function handleSuggestionClick(id) {
   }
   handleItemClick(id);
 }
+
 
 function clearSearchInput(event) {
   if (event) event.stopPropagation();

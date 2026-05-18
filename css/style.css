@@ -42,14 +42,15 @@ body::after {
 .logo-s-small { 
     font-size: 36px; font-weight: 900; color: var(--accent); 
     text-shadow: var(--s-glow); cursor: pointer; transition: 0.3s;
+    margin-right: 35px; /* S logosunun sağındaki zarif boşluk */
 }
 .logo-s-small:hover { transform: scale(1.1); }
 
 .nav-right {
     flex-grow: 1;
-    margin-left: 80px;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
 }
 
 /* ULTRA-PROFESSIONAL SPATIAL SEARCH CONTEXT (Genişletilmiş Üst Bar) */
@@ -57,8 +58,8 @@ body::after {
     position: relative;
     z-index: 16000;
     width: 100%;
-    max-width: 1000px;
 }
+
 .search-bar { 
     display: flex; align-items: center; gap: 12px;
     background: rgba(255, 255, 255, 0.02); 
