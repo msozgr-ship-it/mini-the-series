@@ -211,13 +211,14 @@ function updateOrbitalTransforms() {
         }
       }
     });
-      // Arka plan videosunu güncelle (Dönme Dolap Arkası Filmlerden Kesitler)
-      if (closestIndex !== -1 && orbitalContent[closestIndex]) {
-        updateBackgroundVideo(orbitalContent[closestIndex]);
-      }
-    });
+
+    // Arka plan videosunu güncelle (Dönme Dolap Arkası Filmlerden Kesitler)
+    if (closestIndex !== -1 && orbitalContent[closestIndex]) {
+      updateBackgroundVideo(orbitalContent[closestIndex]);
+    }
   }
 }
+
 
 // BREATHTAKING AMBIENT VIDEO BACKDROP GENERATOR
 let bgVideoTimeout = null;
