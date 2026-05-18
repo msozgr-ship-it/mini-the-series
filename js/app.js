@@ -639,6 +639,11 @@ function openPlayer(file, title, poster) {
       if (file.includes('embed/')) ytId = file.split('embed/')[1]?.split('?')[0];
       else ytId = file.split('v=')[1]?.split('&')[0];
       finalUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&modestbranding=1&rel=0`;
+    } else if (file.includes('dailymotion.com')) {
+      let dmId = file.split('video/')[1]?.split('?')[0]?.split('&')[0];
+      if (dmId) {
+        finalUrl = `https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&queue-enable=false&queue-autoplay-next=false&ui-logo=false`;
+      }
     }
     container.innerHTML += `
       <iframe id="player-frame" src="${finalUrl}" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" style="width:100%; height:100%; border:none; display:block;"></iframe>

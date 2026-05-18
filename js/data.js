@@ -83,7 +83,7 @@ const DB = {
       id: "karaya-movie",
       title: "Kayara",
       poster: "assets/img/kayara.webp",
-      file: "https://www.dailymotion.com/embed/video/k6KRWrhctyV9mmG4D0c?autoplay=1",
+      file: "https://www.dailymotion.com/embed/video/k6KRWrhctyV9mmG4D0c?autoplay=1&queue-enable=false&queue-autoplay-next=false",
       searchTags: "kayara, karaya, macera, aksiyon, deniz, 2024",
       isNew: true
     },
@@ -91,7 +91,7 @@ const DB = {
       id: "stitch-head-movie",
       title: "Stitch Head",
       poster: "assets/img/Stitchhead.jpg",
-      file: "https://www.dailymotion.com/embed/video/k3xfwFMvJ1FAKaG4D2Y?autoplay=1",
+      file: "https://www.dailymotion.com/embed/video/k3xfwFMvJ1FAKaG4D2Y?autoplay=1&queue-enable=false&queue-autoplay-next=false",
       searchTags: "stitch head, stitchhead, animasyon, macera, korku, komedi, 2024",
       isNew: true
     },
