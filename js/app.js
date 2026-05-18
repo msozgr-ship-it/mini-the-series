@@ -118,11 +118,10 @@ function updateOrbitalTransforms() {
 
     calculatedAngles.forEach((data, i) => {
       const { item, relAngle } = data;
-      const rad = (relAngle * Math.PI) / 180;
-      const cosVal = Math.cos(rad); // -1 ile 1 arası değer
+      const cosVal = Math.cos((relAngle * Math.PI) / 180);
       
       // Kusursuz kesintisiz 3D dairesel koordinatlar (Y ekseni tersine çevrildi: Önler yukarıda, arkalar aşağıda!)
-      const x = Math.sin(rad) * radiusX;
+      const x = Math.sin((relAngle * Math.PI) / 180) * radiusX;
       const y = -cosVal * radiusY_vertical;
       const z = cosVal * radiusZ;
       
@@ -162,32 +161,37 @@ function updateOrbitalTransforms() {
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN SÜPER-PREMIUM KESİNTİSİZ 3D ELİPS DÖNME DOLAP MOTORU
-    const radiusX = 460; // Geniş sinematik yatay yay
-    const radiusY_vertical = 90; // Harikulade 3D elips kavisi (Derinlik daha da arttırıldı!)
-    const radiusZ = 180; // Güçlü 3D derinlik projeksiyonu
+    // MASAÜSTÜ İÇİN SOL DİKEY DÖNME DOLAP (VERTICAL FERRIS WHEEL)
+    const radiusY_vertical = 380; // Dikey çap (yukarıdan aşağıya)
+    const radiusZ = 250; // 3D derinlik projeksiyonu
+    const leftOffset = -400; // Sol kenara itme miktarı
+    const curveX = 60; // Dönüşteki yatay kavis
 
     calculatedAngles.forEach((data, i) => {
       const { item, relAngle } = data;
       const rad = (relAngle * Math.PI) / 180;
-      const cosVal = Math.cos(rad); // -1 ile 1 arası değer
+      const cosVal = Math.cos(rad); // Ön/Arka (Z)
+      const sinVal = Math.sin(rad); // Yukarı/Aşağı (Y)
       
-      // Kesintisiz 3D dairesel koordinatlar (Y ekseni tersine çevrildi: Önler yukarıda, arkalar aşağıda!)
-      const x = Math.sin(rad) * radiusX;
-      const y = -cosVal * radiusY_vertical;
-      const z = cosVal * radiusZ;
+      // Dikey Dönüş Koordinatları
+      const x = leftOffset + (Math.abs(sinVal) * curveX); // Sola yaslı, indikçe/çıktıkça hafif sağa kavis
+      const y = sinVal * radiusY_vertical; // Dikey eksende dağılım
+      const z = cosVal * radiusZ; // Derinlik
       
-      // Kusursuz Lineer Ölçekleme (Ön taraf 1.38x büyür, arka taraf 0.65x küçülerek arkadan süzülür!)
-      const maxScale = 1.38;
-      const minScale = 0.65;
+      // Küçültülmüş ve optimize edilmiş lineer ölçekleme
+      const maxScale = 1.15;
+      const minScale = 0.55;
       const scale = minScale + (maxScale - minScale) * (cosVal + 1) / 2;
       
-      const rotY = relAngle * 0.25; 
-      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY.toFixed(2)}deg) rotateX(0deg)`;
+      // Kartlar ekranın ortasına (sağa) hafif dönük olsun
+      const rotY = 15; 
+      const rotX = -sinVal * 15; // Aşağı indikçe hafif yukarı bakar
       
-      // Kesintisiz Opaklık (Ön taraf 1.0, arka taraf S logosunun arkasında 0.22 loşluğa bürünür)
-      const maxOpacity = 1.0;
-      const minOpacity = 0.22;
+      item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY}deg) rotateX(${rotX.toFixed(2)}deg)`;
+      
+      // Arka planı öne çıkarmak için tekerlek elemanlarının opaklığını hafif kıstık
+      const maxOpacity = 0.95;
+      const minOpacity = 0.15;
       const opacity = minOpacity + (maxOpacity - minOpacity) * (cosVal + 1) / 2;
       item.style.opacity = opacity.toFixed(2);
       
@@ -199,11 +203,9 @@ function updateOrbitalTransforms() {
       } else {
         item.classList.remove('active');
         
-        // S logosunun (19000 z-index) önünde veya arkasında olmasına göre kusursuz derinlik sıralaması!
         const zIndexBase = Math.round(19000 + cosVal * 1000);
         item.style.zIndex = zIndexBase;
         
-        // Sadece ön yarımküredeki kartlar tıklanabilir, arkadakiler sadece derinlik katar!
         if (cosVal >= 0) {
           item.style.pointerEvents = "auto";
         } else {
