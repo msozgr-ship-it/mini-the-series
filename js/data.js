@@ -157,6 +157,7 @@ const DB = {
       searchTags: 'coco, koko, miguel, ölüler diyarı, pixar, animasyon, müzikal',
       desc: '12 yaşındaki Miguel\'in Ölüler Diyarı\'ndaki unutulmaz müzikal yolculuğu.',
       poster: 'assets/img/coco.jpg.jpg',
+      trailer: 'https://youtu.be/V46MgKE0LsQ?si=idM1EYnPeGq1rlzT',
       year: '2017',
       match: '97%',
       meta: '4K Ultra HD',
