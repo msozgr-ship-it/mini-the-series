@@ -161,11 +161,11 @@ function updateOrbitalTransforms() {
       }
     });
   } else {
-    // MASAÜSTÜ İÇİN SOL DİKEY DÖNME DOLAP (VERTICAL FERRIS WHEEL)
-    const radiusY_vertical = 380; // Dikey çap (yukarıdan aşağıya)
-    const radiusZ = 250; // 3D derinlik projeksiyonu
-    const leftOffset = -400; // Sol kenara itme miktarı
-    const curveX = 60; // Dönüşteki yatay kavis
+    // MASAÜSTÜ İÇİN SOL DİKEY DÖNME DOLAP (KÜÇÜLTÜLMÜŞ VE DAHA SOLA ALINMIŞ)
+    const radiusY_vertical = 220; // Dikey çap (Çok daha küçük, afişleri kapatmaz)
+    const radiusZ = 160; // 3D derinlik projeksiyonu
+    const leftOffset = -550; // Çok daha sola itildi (Ekranın sol uç kenarına)
+    const curveX = 30; // Dönüşteki yatay kavis
 
     calculatedAngles.forEach((data, i) => {
       const { item, relAngle } = data;
@@ -174,24 +174,24 @@ function updateOrbitalTransforms() {
       const sinVal = Math.sin(rad); // Yukarı/Aşağı (Y)
       
       // Dikey Dönüş Koordinatları
-      const x = leftOffset + (Math.abs(sinVal) * curveX); // Sola yaslı, indikçe/çıktıkça hafif sağa kavis
-      const y = sinVal * radiusY_vertical; // Dikey eksende dağılım
-      const z = cosVal * radiusZ; // Derinlik
+      const x = leftOffset + (Math.abs(sinVal) * curveX); 
+      const y = sinVal * radiusY_vertical; 
+      const z = cosVal * radiusZ; 
       
-      // Küçültülmüş ve optimize edilmiş lineer ölçekleme
-      const maxScale = 1.15;
-      const minScale = 0.55;
+      // Küçültülmüş ve optimize edilmiş lineer ölçekleme (Genel boyutlar iyice küçüldü)
+      const maxScale = 0.85; // Odaktaki kartın büyüklüğü
+      const minScale = 0.35; // Arkadaki kartın küçüklüğü
       const scale = minScale + (maxScale - minScale) * (cosVal + 1) / 2;
       
       // Kartlar ekranın ortasına (sağa) hafif dönük olsun
-      const rotY = 15; 
-      const rotX = -sinVal * 15; // Aşağı indikçe hafif yukarı bakar
+      const rotY = 20; // Sola daha çok itildiği için merkeze dönüş açısı hafif artırıldı
+      const rotX = -sinVal * 12; // Aşağı indikçe hafif yukarı bakar
       
       item.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${z}px) scale(${scale.toFixed(3)}) rotateY(${rotY}deg) rotateX(${rotX.toFixed(2)}deg)`;
       
-      // Arka planı öne çıkarmak için tekerlek elemanlarının opaklığını hafif kıstık
-      const maxOpacity = 0.95;
-      const minOpacity = 0.15;
+      // Arka planı öne çıkarmak için tekerlek elemanlarının opaklığını daha da kıstık
+      const maxOpacity = 0.85;
+      const minOpacity = 0.10;
       const opacity = minOpacity + (maxOpacity - minOpacity) * (cosVal + 1) / 2;
       item.style.opacity = opacity.toFixed(2);
       
@@ -250,18 +250,18 @@ function updateBackgroundVideo(item) {
         let ytId = '';
         if (file.includes('embed/')) ytId = file.split('embed/')[1]?.split('?')[0];
         else ytId = file.split('v=')[1]?.split('&')[0];
-        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3&start=${midPoint}" allow="autoplay; encrypted-media"></iframe>`;
+        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3&start=${midPoint}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
       } else if (file.includes('archive.org')) {
         // archive.org embed linkini al, sessiz, autoplay ve orta noktadan başlama parametrelerini ekle
         const embedUrl = file.replace('/details/', '/embed/');
-        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1&start=${midPoint}" allow="autoplay"></iframe>`;
+        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1&start=${midPoint}" allow="autoplay; fullscreen" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
       } else if (file.endsWith('.mp4') || file.includes('.mp4?')) {
         // HTML5 Media Fragments (#t=saniye) kullanarak doğrudan MP4'ü ortasından oynat!
-        videoHtml = `<video src="${file}#t=${midPoint}" autoplay muted loop playsinline></video>`;
+        videoHtml = `<video src="${file}#t=${midPoint}" autoplay muted loop playsinline style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; object-fit:cover; pointer-events: none;"></video>`;
       } else if (file.includes('dailymotion.com')) {
-        let dmId = file.split('video/')[1]?.split('?')[0];
+        let dmId = file.split('video/')[1]?.split('?')[0]?.split('&')[0];
         if (dmId) {
-          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&controls=0&ui-logo=0&ui-start-screen-info=0" allow="autoplay" style="pointer-events: none;"></iframe>`;
+          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
         }
       }
     }
