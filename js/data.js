@@ -52,6 +52,7 @@ const DB = {
       title: "The Vampire Hunter",
       poster: "assets/img/thewampirehunter.jpeg",
       file: "https://archive.org/embed/vampire-hunter-d-bloodlust_202605",
+      trailer: "https://youtu.be/_felpMOwTzs?si=RSy0VooL-VS6CQ6o",
       searchTags: "the vampire hunter, vampir avcısı, aksiyon, macera, korku, fantastik, 2024",
       isNew: true
     },
