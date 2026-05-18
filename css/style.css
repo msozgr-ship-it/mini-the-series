@@ -226,7 +226,7 @@ body::after {
     position: relative; width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     transform-style: preserve-3d;
-    transform: rotateX(0deg) translateY(45px); /* Düz, temiz ve hizalı yörünge */
+    transform: rotateX(0deg) translateY(-20px); /* Dikey olarak tam merkeze oturtmak için -20px yapıldı */
     transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
     z-index: 500;
 }
