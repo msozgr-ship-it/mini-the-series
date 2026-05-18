@@ -65,7 +65,7 @@ function setupDragEvents() {
     }
     
     const x = e.pageX || (e.touches && e.touches[0] ? e.touches[0].pageX : 0);
-    const diff = (x - startX) * 0.15;
+    const diff = (x - startX) * 0.1;
     currentRotation = startRotation + diff;
     updateOrbitalTransforms();
   };
@@ -164,7 +164,7 @@ function updateOrbitalTransforms() {
     // MASAÜSTÜ İÇİN SOL DİKEY DÖNME DOLAP (KÜÇÜLTÜLMÜŞ VE DAHA SOLA ALINMIŞ)
     const radiusY_vertical = 220; // Dikey çap (Çok daha küçük, afişleri kapatmaz)
     const radiusZ = 160; // 3D derinlik projeksiyonu
-    const leftOffset = -550; // Çok daha sola itildi (Ekranın sol uç kenarına)
+    const leftOffset = -680; // ÇOK DAHA SOLA İTİLDİ (Ekranın tamamen sol kenarına yapıştırıldı)
     const curveX = 30; // Dönüşteki yatay kavis
 
     calculatedAngles.forEach((data, i) => {
@@ -257,9 +257,15 @@ function updateBackgroundVideo(item) {
         let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
         videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
       } else if (sourceUrl.includes('archive.org')) {
-        const embedUrl = sourceUrl.replace('/details/', '/embed/');
-        let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
-        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1${startParam}" allow="autoplay; fullscreen" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none;"></iframe>`;
+        // ARCHIVE.ORG İÇİN KESİN ÇÖZÜM: iframe yerine doğrudan .mp4 dosyasına çeviriyoruz!
+        // Böylece tarayıcılar play butonu çıkarmaz, %100 otomatik (autoplay) sessiz oynatır.
+        let identifier = '';
+        if (sourceUrl.includes('archive.org/embed/')) identifier = sourceUrl.split('archive.org/embed/')[1]?.split('?')[0];
+        else identifier = sourceUrl.split('archive.org/details/')[1]?.split('?')[0];
+        
+        let directMp4 = `https://archive.org/download/${identifier}/${identifier}.mp4`;
+        let fragParam = midPoint > 0 ? `#t=${midPoint}` : '';
+        videoHtml = `<video src="${directMp4}${fragParam}" autoplay muted loop playsinline style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; object-fit:cover; pointer-events: none;"></video>`;
       } else if (sourceUrl.endsWith('.mp4') || sourceUrl.includes('.mp4?')) {
         let fragParam = midPoint > 0 ? `#t=${midPoint}` : '';
         videoHtml = `<video src="${sourceUrl}${fragParam}" autoplay muted loop playsinline style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; object-fit:cover; pointer-events: none;"></video>`;
