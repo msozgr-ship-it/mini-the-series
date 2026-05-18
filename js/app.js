@@ -256,6 +256,11 @@ function updateBackgroundVideo(item) {
       } else if (file.endsWith('.mp4') || file.includes('.mp4?')) {
         // HTML5 Media Fragments (#t=saniye) kullanarak doğrudan MP4'ü ortasından oynat!
         videoHtml = `<video src="${file}#t=${midPoint}" autoplay muted loop playsinline></video>`;
+      } else if (file.includes('dailymotion.com')) {
+        let dmId = file.split('video/')[1]?.split('?')[0];
+        if (dmId) {
+          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&controls=0&ui-logo=0&ui-start-screen-info=0" allow="autoplay" style="pointer-events: none;"></iframe>`;
+        }
       }
     }
 
@@ -315,7 +320,7 @@ function renderOrbital() {
       <div class="cf-item ${isColl ? 'collection-stack' : ''}" id="orb-${index}" onclick="handleOrbitalClick(${index}, '${item.id}')">
         ${isColl ? '<div class="collection-badge">SERİ</div>' : ''}
         <div class="neon-rim"></div>
-        <img src="${encodeURI(item.poster)}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
+        <img src="${item.poster}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
       </div>
     `;
   }).join('');
@@ -336,7 +341,7 @@ function renderContent() {
       <div class="card-wrapper ${isColl ? 'collection-stack' : ''}" onclick="handleItemClick('${item.id}')">
         <div class="card">
           ${isColl ? '<div class="collection-badge">SERİ</div>' : ''}
-          <img src="${encodeURI(item.poster)}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
+          <img src="${item.poster}" alt="" onerror="this.src='https://via.placeholder.com/200x300?text=Afiş+Yok'">
         </div>
       </div>
     `;
@@ -461,7 +466,7 @@ function setupSearch() {
           const typeText = isColl ? 'Seri' : 'Film';
           return `
             <div class="search-result-item" onclick="handleSuggestionClick('${item.id}')">
-              <img src="${encodeURI(item.poster)}" alt="">
+              <img src="${item.poster}" alt="">
               <div class="search-result-info">
                 <div class="search-result-title">${item.title}</div>
                 <div class="search-result-meta">${item.year || '2024'} • ${typeText} • ${ratingText}</div>
@@ -545,7 +550,7 @@ function openDetails(id) {
   let subItems = item.episodes || item.collection || [];
   grid.innerHTML = subItems.map(sub => `
     <div class="series-item" onclick="event.stopPropagation(); openPlayer('${sub.file}', '${sub.title}', '${sub.poster || item.poster}')">
-      <div class="card"><img src="${encodeURI(sub.poster || item.poster)}" alt=""></div>
+      <div class="card"><img src="${sub.poster || item.poster}" alt=""></div>
       <h3>${sub.title}</h3>
     </div>
   `).join('');
@@ -569,7 +574,7 @@ function openPlayer(file, title, poster) {
   const container = document.querySelector('.player-container');
   
   if (playerTitle) playerTitle.textContent = title || "Sinematik Deneyim";
-  if (playerBackdrop) playerBackdrop.style.backgroundImage = poster ? `url(${encodeURI(poster)})` : '';
+  if (playerBackdrop) playerBackdrop.style.backgroundImage = poster ? `url(${poster})` : '';
   
   // Eski içeriği temizle ve logoyu maskeleyen paneli sıfırla
   container.innerHTML = `
@@ -651,7 +656,7 @@ function openComingSoon(title, poster) {
   const csBackdrop = document.getElementById('cs-backdrop');
   
   csTitle.textContent = title || "Sinematik İçerik";
-  if (poster) csBackdrop.style.backgroundImage = `url(${encodeURI(poster)})`;
+  if (poster) csBackdrop.style.backgroundImage = `url(${poster})`;
   
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);

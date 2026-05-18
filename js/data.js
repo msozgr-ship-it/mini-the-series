@@ -91,7 +91,7 @@ const DB = {
       id: "stitch-head-movie",
       title: "Stitch Head",
       poster: "assets/img/Stitchhead.jpg",
-      file: "https://pixeldrain.com/u/STITCH_ID",
+      file: "https://www.dailymotion.com/embed/video/k3xfwFMvJ1FAKaG4D2Y?autoplay=1",
       searchTags: "stitch head, stitchhead, animasyon, macera, korku, komedi, 2024",
       isNew: true
     },
