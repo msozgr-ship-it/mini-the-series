@@ -259,8 +259,8 @@ function updateBackgroundVideo(item) {
         
         // Fragmansa 5. saniyeden başlatır (Play tuşunu atlar), filmse ortadan!
         let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
-        // Tam ekrana sığdırıldı, taşma iptal edildi!
-        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iframe>`;
+        // Tam ekrana tam sığdırıldı, taşırma yok
+        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&vq=hd1080${startParam}" allow="autoplay; encrypted-media; picture-in-picture" style="width: 100%; height: 100vh; border: none; pointer-events: none;"></iframe>`;
       } else if (sourceUrl.includes('archive.org')) {
         // ARCHIVE.ORG İÇİN KESİN ÇÖZÜM: iframe yerine doğrudan .mp4 dosyasına çeviriyoruz!
         // Böylece tarayıcılar play butonu çıkarmaz, %100 otomatik (autoplay) sessiz oynatır.
@@ -282,7 +282,7 @@ function updateBackgroundVideo(item) {
         if (dmId) {
           // HD kalite (quality=1080). Tam ekrana sığdırıldı.
           let startParam = midPoint > 0 ? `&start=${midPoint}` : '';
-          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0&quality=1080&queue-enable=false${startParam}" allow="autoplay; fullscreen; picture-in-picture" style="width:100vw; height:56.25vw; min-height:100vh; min-width:177.77vh; pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iframe>`;
+          videoHtml = `<iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=1&muted=1&controls=0&ui-logo=0&ui-start-screen-info=0&quality=1080&queue-enable=false${startParam}" allow="autoplay; fullscreen; picture-in-picture" style="width: 100%; height: 100vh; border: none; pointer-events: none;"></iframe>`;
         }
       }
     }
