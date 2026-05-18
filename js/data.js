@@ -101,7 +101,7 @@ const DB = {
       id: "swapped-movie",
       title: "Swapped",
       poster: "assets/img/swapped.jpg",
-      file: "https://pixeldrain.com/u/SWAPPED_ID",
+      file: "https://www.dailymotion.com/embed/video/k2ZeOLXS6COHywG4KJ8?autoplay=1&queue-enable=false&queue-autoplay-next=false",
       trailer: "https://youtu.be/h_ypav1tCHw?si=5iAbRUcYN0RfITVK",
       searchTags: "swapped, animasyon, macera, fantastik, aile, 2024",
       isNew: true
