@@ -240,18 +240,22 @@ function updateBackgroundVideo(item) {
     let videoHtml = '';
     const file = item.file;
 
+    // Filmlerin başlangıç/bitiş jeneriklerini atlamak için 20. dk (1200s) ile 50. dk (3000s) arasında rastgele bir orta saniye seç!
+    const midPoint = Math.floor(Math.random() * 1800) + 1200; 
+
     if (file) {
       if (file.includes('youtube.com') || file.includes('youtu.be')) {
         let ytId = '';
         if (file.includes('embed/')) ytId = file.split('embed/')[1]?.split('?')[0];
         else ytId = file.split('v=')[1]?.split('&')[0];
-        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3" allow="autoplay; encrypted-media"></iframe>`;
+        videoHtml = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${ytId}&modestbranding=1&iv_load_policy=3&start=${midPoint}" allow="autoplay; encrypted-media"></iframe>`;
       } else if (file.includes('archive.org')) {
-        // archive.org embed linkini al, sessiz ve autoplay parametreleri ekle
+        // archive.org embed linkini al, sessiz, autoplay ve orta noktadan başlama parametrelerini ekle
         const embedUrl = file.replace('/details/', '/embed/');
-        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1" allow="autoplay"></iframe>`;
+        videoHtml = `<iframe src="${embedUrl}?autoplay=1&muted=1&controls=0&loop=1&start=${midPoint}" allow="autoplay"></iframe>`;
       } else if (file.endsWith('.mp4') || file.includes('.mp4?')) {
-        videoHtml = `<video src="${file}" autoplay muted loop playsinline></video>`;
+        // HTML5 Media Fragments (#t=saniye) kullanarak doğrudan MP4'ü ortasından oynat!
+        videoHtml = `<video src="${file}#t=${midPoint}" autoplay muted loop playsinline></video>`;
       }
     }
 
